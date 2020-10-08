@@ -7,12 +7,14 @@ public class Start {
     public static void newGame(){
         Country country = new Country();
         CombatEngine combatEngine = new CombatEngine();
-        String message="";
+        String curCountry = "";
         while (true){
-            Prompter.promptUser();
+
+            curCountry = Prompter.promptUser(country);
+            country.setNameOfCountry(curCountry);
+
             //message=combatEngine.combat(50,100);
             //System.out.println(message);
-
         }
 
     }

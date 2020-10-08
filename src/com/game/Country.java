@@ -11,22 +11,24 @@ public class Country {
 
     // attributes or fields
     private String nameOfCountry="kattegat";
-    private int noOfSoldiers = 300;
+
+    /*private int noOfSoldiers = 300;
     private boolean isBoatsAvailable = false;
     private boolean isHorseAvailable = false;
     private boolean isFlokkiFound = false;
     private int treasures = 0; // can include coin e.g. gold coins
-    private List<String> weapons = new ArrayList<>(){{add("axe"); add("bow");add("swords"); add("arrows");add("hammer");}};
-    private List<String> direction = new ArrayList<>(){{
-        add("north");add("south");add("east");add("west");}};
-    private Map<String, Integer> itemsCollection = new HashMap<>();
+    private boolean weapons = false;
+    private String direction;*/
 
     //constructor
     public Country(){
         // no args
     }
-
-    public Country(String nameOfCountry, int noOfSoldiers, boolean isBoatsAvailable, boolean isHorseAvailable, boolean isFlokkiFound,int treasures, List<String>weapons, List<String> direction){
+    public Country(String nameOfCountry){
+        this();
+        this.setNameOfCountry(nameOfCountry);
+    }
+   /* public Country(String nameOfCountry, int noOfSoldiers, boolean isBoatsAvailable, boolean isHorseAvailable, boolean isFlokkiFound,int treasures, boolean weapons, String direction){
         this.nameOfCountry=nameOfCountry;
         this.noOfSoldiers=noOfSoldiers;
         this.isBoatsAvailable=isBoatsAvailable;
@@ -35,14 +37,42 @@ public class Country {
         this.treasures=treasures;
         this.weapons=weapons;
         this.direction=direction;
-    }
+    }*/
 
     //business methods
-    public void sail(String direction){
-        TextParser.textParser(direction);
+    public String sail(String direction){
+        String country = TextParser.textParser("sail", direction, nameOfCountry, new Country());
+        return country;
     }
-    // getters and setters to access private fields
+
     public String getNameOfCountry() {
+        return nameOfCountry;
+    }
+
+    public void setNameOfCountry(String nameOfCountry) {
+        this.nameOfCountry = nameOfCountry;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // getters and setters to access private fields
+   /* public String getNameOfCountry() {
         return nameOfCountry;
     }
 
@@ -90,19 +120,19 @@ public class Country {
         this.treasures = treasures;
     }
 
-    public List<String> getWeapons() {
+    public boolean getWeapons() {
         return weapons;
     }
 
-    public void setWeapons(List<String> weapons) {
+    public void setWeapons(boolean weapons) {
         this.weapons = weapons;
     }
 
-    public List<String> getDirection() {
+    public String getDirection() {
         return direction;
     }
 
-    public void setDirection(List<String> direction) {
+    public void setDirection(String direction) {
         this.direction = direction;
     }
 
@@ -119,5 +149,5 @@ public class Country {
                 ", direction=" + direction +
                 ", itemsCollection=" + itemsCollection +
                 '}';
-    }
+    }*/
 }
