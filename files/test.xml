@@ -1,0 +1,159 @@
+<country>
+    <kattegat>1
+        <property type="soldiers">500</property>2
+        <property type="houses">
+            <mysterybox>
+                <swords>sword</swords>
+                <treasures>100</treasures>
+            </mysterybox>
+        </property>3
+        <property type="locals">10</property>4
+        <property type="horse">100</property>5
+        <property type="palace">1</property>6
+        <property type="boat">5</property>7
+        <property type="north">iceland</property>8
+        <property type="south">denmark</property>9
+        <property type="east">sweden</property>10
+        <property type="west">ireland</property>11
+    </kattegat>
+
+    <sweden>
+        <soldiers></soldiers>
+        <houses>
+            <mysterybox>
+                <swords>
+
+                </swords>
+                <treasures>
+
+                </treasures>
+            </mysterybox>
+        </houses>
+        <locals></locals>
+        <horses></horses>
+        <palace></palace>
+
+        <east>russia</east>
+        <west>kattegat</west></sweden>
+
+    <denmark>
+        <soldiers></soldiers>
+        <houses>
+            <mysterybox>
+                <swords>
+
+                </swords>
+                <treasures>
+
+                </treasures>
+            </mysterybox>
+        </houses>
+        <locals></locals>
+        <horses></horses>
+        <palace></palace>
+        <north>kattegat</north>
+        <south>france</south>
+        <west>northumbria</west>
+
+    </denmark>
+
+    <northumbria>
+        <soldiers></soldiers>
+        <houses>
+            <mysterybox>
+                <swords>
+
+                </swords>
+                <treasures>
+
+                </treasures>
+            </mysterybox>
+        </houses>
+        <locals></locals>
+        <horses></horses>
+        <palace></palace>
+
+
+        <south>france</south>
+        <east>denmark</east>
+
+    </northumbria>
+
+    <france>
+    <soldiers></soldiers>
+        <houses>
+            <mysterybox>
+                <swords>
+
+                </swords>
+                <treasures>
+
+                </treasures>
+            </mysterybox>
+        </houses>
+        <locals></locals>
+        <horses></horses>
+        <palace></palace>
+        <north>northumbria</north>
+    </france>
+
+    <iceland>
+        <soldiers></soldiers>
+        <houses>
+            <mysterybox>
+                <swords>
+
+                </swords>
+                <treasures>
+
+                </treasures>
+            </mysterybox>
+        </houses>
+        <locals></locals>
+        <horses></horses>
+        <palace></palace>
+
+        <south>kattegat</south>
+    </iceland>
+
+    <ireland>
+        <soldiers></soldiers>
+        <houses>
+            <mysterybox>
+                <swords>
+
+                </swords>
+                <treasures>
+
+                </treasures>
+            </mysterybox>
+        </houses>
+        <locals></locals>
+        <horses></horses>
+        <palace></palace>
+
+
+        <east>kattegat</east>
+    </ireland>
+
+    <russia>
+        <soldiers></soldiers>
+
+        <houses>
+            <mysterybox>
+                <swords>
+
+                </swords>
+                <treasures>
+
+                </treasures>
+            </mysterybox>
+        </houses>
+        <locals></locals>
+        <horses></horses>
+        <palace></palace>
+
+        <west>sweden</west>
+    </russia>
+
+</country>
