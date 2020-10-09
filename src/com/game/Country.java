@@ -45,6 +45,13 @@ public class Country {
         return country;
     }
 
+    public String look( ){
+         String list = TextParser.textParser("look","",nameOfCountry,new Country());
+        return list;
+    }
+
+
+
     public String getNameOfCountry() {
         return nameOfCountry;
     }

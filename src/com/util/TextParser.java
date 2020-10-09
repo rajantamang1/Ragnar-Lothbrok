@@ -20,6 +20,8 @@ import java.util.Map;
 public class TextParser {
     public static String textParser(String cmd, String noun, String countryName, Country countryInstance){
         String curCountry = "";
+        String itemList = "";
+        String result = "";
         try {
 
 
@@ -39,9 +41,12 @@ public class TextParser {
                curCountry = direction(document, noun, countryName);
                 //countryInstance = new Country(curCountry);
                  countryInstance.setNameOfCountry(curCountry);
-
+                 result = curCountry;
                //countryInstance.put("","");
                System.out.println(curCountry);
+            }else if(cmd.equals("look")){
+                itemList=viewItems(document,countryName);
+                result = itemList;
             }
 
             /*List<String> result = new ArrayList<>();
@@ -65,7 +70,42 @@ public class TextParser {
             e.printStackTrace();
         }
 
-        return curCountry;
+        return result;
+    }
+
+    private static String viewItems(Document document, String curCountry) {
+
+        NodeList countryNodeList = document.getElementsByTagName(curCountry);
+        NodeList childNodes = null;
+
+        if (document.getElementsByTagName(curCountry) != null){
+            //for(int j=0; j < countryNodeList.getLength();j++){
+            Node countryNode = countryNodeList.item(0);
+            childNodes = countryNode.getChildNodes();
+            //}
+        }else{
+            System.out.println("it is null");
+        }
+
+        // NodeList sailNodeList = document.getElementsByTagName("direction");
+        String desCountry = "";
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i= 0; i < childNodes.getLength(); i++){
+
+            Node childNode = childNodes.item(i);
+            if(childNode.getNodeType()==Node.ELEMENT_NODE) {
+
+                Element elem = (Element) childNode;
+
+                if(elem.getTagName().equals("property") ){
+                    stringBuilder.append(elem.getAttribute("type"))
+                            .append(",");
+
+                }
+            }
+        }
+        System.out.println(stringBuilder.toString().substring(0,stringBuilder.length()-1));
+        return  stringBuilder.toString();
     }
 
     /*private static Country initializeCountry(Document document, String curCountry) {
