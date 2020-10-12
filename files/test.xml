@@ -1,11 +1,11 @@
 <country>
     <kattegat>
         <property type="soldiers">500</property>
-        <property type="houses">
-            <mysterybox>
-                <swords>sword</swords>
-                <treasures>100</treasures>
-            </mysterybox>
+        <property type="houses" id="inspectable">
+            <inner type = "mysterybox" id="inspectable">
+                <extreme type="swords">sword</extreme>
+                <extreme type="treasures">100</extreme>
+            </inner>
         </property>
         <property type="locals">10</property>
         <property type="horse">100</property>

@@ -40,12 +40,21 @@ public class Country {
     }*/
 
     //business methods
+    public String inspect(String item,String curCountry){
+        String list = TextParser.textParser("inspect",item,curCountry,new Country());
+        return list;
+    }
+    public String getItem(String item, String curCountry){
+        String itemPicked = TextParser.textParser("pick",item, curCountry, new Country());
+        return itemPicked;
+    }
+
     public String sail(String direction){
         String country = TextParser.textParser("sail", direction, nameOfCountry, new Country());
         return country;
     }
 
-    public String look( ){
+    public String look(){
          String list = TextParser.textParser("look","",nameOfCountry,new Country());
         return list;
     }

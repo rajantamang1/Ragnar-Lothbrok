@@ -22,9 +22,8 @@ public class TextParser {
         String curCountry = "";
         String itemList = "";
         String result = "";
+
         try {
-
-
             File file = new File("Ragnar-lothbrok/files/test.xml");
 
             DocumentBuilderFactory mybuilder = DocumentBuilderFactory.newInstance();
@@ -45,66 +44,107 @@ public class TextParser {
                //countryInstance.put("","");
                System.out.println(curCountry);
             }else if(cmd.equals("look")){
-                itemList=viewItems(document,countryName);
+                itemList=viewItems(document,countryName, "");
                 result = itemList;
+            }else if(cmd.equals("inspect")) {
+                itemList=viewItems(document,countryName, noun);
+                result = itemList;
+            }else if(cmd.equals("pick")){
+                result = grab(document, noun, countryName);
             }
-
-            /*List<String> result = new ArrayList<>();
-            for(int i = 0; i <nodeList.getLength();i++){
-                Node node = nodeList.item(i);
-                if (node.getNodeType()==Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
-                    //System.out.println(element.getAttribute("type"));
-
-                    result = trim(element.getElementsByTagName("property").item(i).getTextContent());
-                    //System.out.println(element.getElementsByTagName("direction").item(0).getTextContent());
-                }
-                for (int j =0; j<node.getChildNodes().getLength();j++ ) {
-                    System.out.println(node.getChildNodes().item(j).getNodeName());
-
-                }
-            }
-            System.out.println(result);*/
-
         } catch (Exception e){
             e.printStackTrace();
         }
-
         return result;
     }
 
-    private static String viewItems(Document document, String curCountry) {
-
+    private static String grab(Document document, String item, String curCountry){
         NodeList countryNodeList = document.getElementsByTagName(curCountry);
         NodeList childNodes = null;
-
+        String itemFound = "";
+        StringBuilder strBld = new StringBuilder();
         if (document.getElementsByTagName(curCountry) != null){
-            //for(int j=0; j < countryNodeList.getLength();j++){
             Node countryNode = countryNodeList.item(0);
             childNodes = countryNode.getChildNodes();
-            //}
         }else{
             System.out.println("it is null");
         }
-
-        // NodeList sailNodeList = document.getElementsByTagName("direction");
-        String desCountry = "";
-        StringBuilder stringBuilder = new StringBuilder();
         for (int i= 0; i < childNodes.getLength(); i++){
 
             Node childNode = childNodes.item(i);
             if(childNode.getNodeType()==Node.ELEMENT_NODE) {
 
                 Element elem = (Element) childNode;
-
-                if(elem.getTagName().equals("property") ){
-                    stringBuilder.append(elem.getAttribute("type"))
-                            .append(",");
-
+                if(elem.getAttribute("type").equals(item) ){
+                    itemFound = strBld.append(item)
+                            .append(",")
+                            .append(elem.getTextContent())
+                            .toString();
+                    break;
                 }
             }
         }
-        System.out.println(stringBuilder.toString().substring(0,stringBuilder.length()-1));
+        if (itemFound.equals("")){
+            System.out.println("Can't find item");
+        }
+        return itemFound;
+    }
+    private static String viewItems(Document document, String curCountry, String item) {
+
+        NodeList countryNodeList = document.getElementsByTagName(curCountry);
+        NodeList childNodes = null;
+        String inspectItem = "";
+        for(int j=0; j < countryNodeList.getLength(); j++){
+            if (document.getElementsByTagName(curCountry) != null){
+                //for(int j=0; j < countryNodeList.getLength();j++){
+                Node countryNode = countryNodeList.item(j);
+                childNodes = countryNode.getChildNodes();
+                //}
+            }else{
+                System.out.println("it is null");
+            }
+        }
+
+
+        // NodeList sailNodeList = document.getElementsByTagName("direction");
+        String desCountry = "";
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i= 0; i < childNodes.getLength(); i++) {
+
+            Node childNode = childNodes.item(i);
+            if (childNode.getNodeType() == Node.ELEMENT_NODE) {
+
+                Element elem = (Element) childNode;
+
+                if (item.equals("")) {
+                    if (elem.getTagName().equals("property")) {
+                        stringBuilder.append(elem.getAttribute("type"))
+                                .append(",");
+                    }
+                } else {
+
+                    if (elem.getTagName().equals("property") && elem.getAttribute("id").equals("inspectable")
+                    && elem.getAttribute("type").equals(item)) {
+                        NodeList inspectedItem = elem.getElementsByTagName("inner");
+                        for (int k =0; k < inspectedItem.getLength();k++){
+                            Element element = (Element)inspectedItem.item(k);
+                            //System.out.println("children :" + element.getAttribute("type"));
+                            stringBuilder.append(element.getAttribute("type"))
+                                    .append(",");
+                        }
+                    }
+                }
+            }
+
+        }
+
+        //System.out.println(stringBuilder.length());
+        if(item.equals("")){
+            System.out.println("You can see ["+(stringBuilder.toString().substring(0,stringBuilder.length()-1)+ "]"));
+        }else{
+            System.out.println("You found ["+(stringBuilder.toString().substring(0,stringBuilder.length()-1)+ "]"));
+        }
+
         return  stringBuilder.toString();
     }
 
@@ -170,10 +210,10 @@ public class TextParser {
             }
         }
         if (desCountry.strip().equals("nowhere")){
-            System.out.println("current country1: " +curCountry);
+            System.out.println("Your are in " +curCountry);
             return curCountry;
         }else{
-            System.out.println("current country2: " + desCountry);
+            System.out.println("You are in " + desCountry);
 
             return desCountry;
         }
@@ -197,9 +237,12 @@ public class TextParser {
     }
     public static void main(String[] args) {
        // textParser("kattegat");
-        System.out.println(textParser("sail", "east", "kattegat", new Country()));
+        String item = textParser("look", "", "kattegat", new Country());
 
-        System.out.println(textParser("sail", "east", "russia", new Country()));
+        String item1 = textParser("pick", "horse", "kattegat", new Country());
+        System.out.println(item);
+        System.out.println(item1);
+
     }
 }
 

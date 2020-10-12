@@ -8,9 +8,9 @@ public class CombatEngine {
         return rand.nextInt(a);
     }
 
-    public String combat(int soldierCount1, int soldierCount2){
+    public String combat(int soldierCount1, int soldierCount2, int weaponCount1, int weaponCount2){
         String message= "";
-        if (random(soldierCount1)>random(soldierCount2)){
+        if (random((soldierCount1)+random(weaponCount1)) > (random(soldierCount2)+random(weaponCount1))){
             message="Winner is soldier 1";
         } else {
             message= "Winner is soldier 2";
@@ -18,10 +18,12 @@ public class CombatEngine {
         return message;
     }
 
-//    public static void main(String[] args) {
-//        CombatEngine combatEngine = new CombatEngine();
-//        combatEngine.combat(50,100);
-//        combatEngine.combat(50,100);
-//        combatEngine.combat(50,100);
-//    }
+    /*public static void main(String[] args) {
+        CombatEngine combatEngine = new CombatEngine();
+        System.out.println(combatEngine.combat(50, 100, 30, 15));
+        System.out.println(combatEngine.combat(50,100, 30,15));
+        System.out.println(combatEngine.combat(50,100, 30,15));
+        System.out.println(combatEngine.combat(50,100, 30,15));
+
+    }*/
 }
