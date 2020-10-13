@@ -1,7 +1,7 @@
 package com.game;
 
 import com.util.TextParser;
-
+import org.w3c.dom.Document;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,23 +40,27 @@ public class Country {
     }*/
 
     //business methods
-    public String inspect(String item,String curCountry){
-        String list = TextParser.textParser("inspect",item,curCountry,new Country());
+    public String inspect(String item,String curCountry, Document document){
+        String list = TextParser.textParser("inspect",item,curCountry, document);
         return list;
     }
-    public String getItem(String item, String curCountry){
-        String itemPicked = TextParser.textParser("pick",item, curCountry, new Country());
+    public String getItem(String item, String curCountry, Document document){
+        String itemPicked = TextParser.textParser("pick",item, curCountry, document);
         return itemPicked;
     }
 
-    public String sail(String direction){
-        String country = TextParser.textParser("sail", direction, nameOfCountry, new Country());
+    public String sail(String direction, Document document){
+        String country = TextParser.textParser("sail", direction, nameOfCountry, document);
         return country;
     }
 
-    public String look(){
-         String list = TextParser.textParser("look","",nameOfCountry,new Country());
+    public String look(Document document){
+         String list = TextParser.textParser("look","",nameOfCountry, document);
         return list;
+    }
+    public String attack(String currentCountry, Document document){
+        String result = TextParser.textParser("attack","",nameOfCountry,document);
+        return result;
     }
 
 

@@ -7,6 +7,7 @@
                 <extreme type="treasures">100</extreme>
             </inner>
         </property>
+        <property type="weapons">300</property>
         <property type="locals">10</property>
         <property type="horse">100</property>
         <property type="palace">1</property>
@@ -20,13 +21,14 @@
     </kattegat>
 
     <sweden>
-        <property type="soldiers">500</property>
+        <property type="soldiers">400</property>
         <property type="houses">
             <mysterybox>
                 <swords>sword</swords>
                 <treasures>100</treasures>
             </mysterybox>
         </property>
+        <property type="weapons">300</property>
         <property type="locals">10</property>
         <property type="horse">100</property>
         <property type="palace">1</property>
@@ -39,13 +41,14 @@
     </sweden>
 
     <denmark>
-        <property type="soldiers">500</property>
+        <property type="soldiers">400</property>
         <property type="houses">
             <mysterybox>
                 <swords>sword</swords>
                 <treasures>100</treasures>
             </mysterybox>
         </property>
+        <property type="weapons">300</property>
         <property type="locals">10</property>
         <property type="horse">100</property>
         <property type="palace">1</property>
@@ -65,6 +68,7 @@
                 <treasures>100</treasures>
             </mysterybox>
         </property>
+        <property type="weapons">300</property>
         <property type="locals">10</property>
         <property type="horse">100</property>
         <property type="palace">1</property>
@@ -78,13 +82,14 @@
     </northumbria>
 
     <france>
-        <property type="soldiers">500</property>
+        <property type="soldiers">400</property>
         <property type="houses">
             <mysterybox>
                 <swords>sword</swords>
                 <treasures>100</treasures>
             </mysterybox>
         </property>
+        <property type="weapons">300</property>
         <property type="locals">10</property>
         <property type="horse">100</property>
         <property type="palace">1</property>
@@ -123,6 +128,7 @@
                 <treasures>100</treasures>
             </mysterybox>
         </property>
+        <property type="weapons">300</property>
         <property type="locals">10</property>
         <property type="horse">100</property>
         <property type="palace">1</property>
@@ -135,13 +141,14 @@
     </ireland>
 
     <russia>
-        <property type="soldiers">500</property>
+        <property type="soldiers">1000</property>
         <property type="houses">
             <mysterybox>
                 <swords>sword</swords>
                 <treasures>100</treasures>
             </mysterybox>
         </property>
+        <property type="weapons">800</property>
         <property type="locals">10</property>
         <property type="horse">100</property>
         <property type="palace">1</property>
