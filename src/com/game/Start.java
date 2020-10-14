@@ -51,6 +51,7 @@ public class Start {
                     String[] keyValue = country.getItem(inputArray[1], curCountry,document).split(",");
                     if (keyValue.length == 7) {
                         inventoryMap.put(keyValue[0], keyValue[1]);
+
                     }
                 } else if (inputArray[0].equals("inspect") | inputArray[0].equals("check") | inputArray[0].equals("investigate") | inputArray[0].equals("examine")) {
                     country.inspect(inputArray[1], curCountry,document);

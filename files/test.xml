@@ -13,11 +13,11 @@
         <property type="palace">1</property>
         <property type="boat">5</property>
 
+        <neighbors type="neighbors">sweden,russia</neighbors>
         <direction type="north">iceland</direction>
         <direction type="south">denmark</direction>
         <direction type="east">sweden</direction>
         <direction type="west">ireland</direction>
-
     </kattegat>
 
     <sweden>
@@ -34,6 +34,7 @@
         <property type="palace">1</property>
         <property type="boat">5</property>
 
+        <neighbors type="neighbors">kattegat,russia</neighbors>
         <direction type="north">nowhere</direction>
         <direction type="south">nowhere</direction>
         <direction type="east">russia</direction>
@@ -141,19 +142,20 @@
     </ireland>
 
     <russia>
-        <property type="soldiers">1000</property>
+        <property type="soldiers">3000</property>
         <property type="houses">
             <mysterybox>
                 <swords>sword</swords>
                 <treasures>100</treasures>
             </mysterybox>
         </property>
-        <property type="weapons">800</property>
+        <property type="weapons">1000</property>
         <property type="locals">10</property>
         <property type="horse">100</property>
         <property type="palace">1</property>
         <property type="boat">5</property>
 
+        <neighbors type="neighbors">sweden,kattegat</neighbors>
         <direction type="north">nowhere</direction>
         <direction type="south">nowhere</direction>
         <direction type="east">nowhere</direction>

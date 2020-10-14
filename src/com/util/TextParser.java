@@ -1,6 +1,5 @@
 package com.util;
 
-import com.game.Country;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -15,9 +14,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import static com.util.Statistics.setMessage;
 
 public class TextParser {
 
@@ -45,6 +44,7 @@ public class TextParser {
                  //countryInstance.setNameOfCountry(curCountry);
                  result = curCountry;
                //countryInstance.put("","");
+                //setMessage(curCountry);
                System.out.println(curCountry);
             }else if(cmd.equals("look")){
                 itemList=viewItems(document,countryName, "");
@@ -86,12 +86,14 @@ public class TextParser {
                             .append(",")
                             .append(elem.getTextContent())
                             .toString();
+
                     break;
                 }
             }
         }
         if (itemFound.equals("")){
-            System.out.println("Can't find item");
+            setMessage("Can't find item");
+            //System.out.println("Can't find item");
         }
         return itemFound;
     }
@@ -110,7 +112,6 @@ public class TextParser {
                 System.out.println("it is null");
             }
         }
-
 
         // NodeList sailNodeList = document.getElementsByTagName("direction");
         String desCountry = "";
@@ -145,48 +146,17 @@ public class TextParser {
         }
 
         //System.out.println(stringBuilder.length());
-        if(item.equals("")){
-            System.out.println("You can see ["+(stringBuilder.toString().substring(0,stringBuilder.length()-1)+ "]"));
+        /*if(item.equals("")){
+            setMessage("You can see ["+(stringBuilder.toString().substring(0,stringBuilder.length()-1)+ "]"));
+            //System.out.println("You can see ["+(stringBuilder.toString().substring(0,stringBuilder.length()-1)+ "]"));
         }else{
-            System.out.println("You found ["+(stringBuilder.toString().substring(0,stringBuilder.length()-1)+ "]"));
-        }
+            setMessage("You can see ["+(stringBuilder.toString().substring(0,stringBuilder.length()-1)+ "]"));
+
+            //System.out.println("You found ["+(stringBuilder.toString().substring(0,stringBuilder.length()-1)+ "]"));
+        }*/
 
         return  stringBuilder.toString();
     }
-
-    /*private static Country initializeCountry(Document document, String curCountry) {
-        NodeList countryNodeList = document.getElementsByTagName(curCountry);
-        NodeList childNodes = null;
-        if (document.getElementsByTagName(curCountry) != null) {
-            Node countryNode = countryNodeList.item(0);
-            childNodes = countryNode.getChildNodes();
-        } else {
-            System.out.println("it is null");
-        }
-        // boolean isHorseAvailable, boolean isFlokkiFound,int treasures, List<String>weapons, List<String> direction)
-        String desCountry = "";
-        for (int i = 0; i < childNodes.getLength(); i++) {
-            Node childNode = childNodes.item(i);
-            if (childNode.getNodeType() == Node.ELEMENT_NODE) {
-                Element elem = (Element) childNode;
-                if (elem.getAttribute("type").equals("soldiers")) {
-                    desCountry = elem.getTextContent();
-                    String nameOfCountry =
-                    int noOfSoldiers
-                    int treasures
-                    boolean isHorseAvailable
-                    boolean isFlokkiFound
-                    int treasures
-                    List<String>weapons
-                    List<String> direction
-                    break;
-                }
-            }
-
-
-        }
-        return null;
-    }*/ //Country(String nameOfCountry, int noOfSoldiers, boolean isBoatsAvailable,
 
     //calls this function for sailing, travelling to different countries
     private static String direction(Document document, String noun, String curCountry){
@@ -217,28 +187,54 @@ public class TextParser {
             }
         }
         if (desCountry.strip().equals("nowhere")){
-            System.out.println("Your are in " +curCountry);
+
+            setMessage("That direction leads you to " + desCountry.strip());
             return curCountry;
         }else{
-            System.out.println("You are in " + desCountry);
+            setMessage("You are in " + desCountry);
 
             return desCountry;
         }
 
     }
     private static int getSoldierNumber(Document document, String country){
-        NodeList childNodes1 = document.getElementsByTagName(country).item(0).getChildNodes();
-        int soldierCount=Integer.parseInt(childNodes1.item(1).getTextContent());
+        int soldierCount;
+        NodeList childNodes = document.getElementsByTagName(country).item(0).getChildNodes();
+        soldierCount= Integer.parseInt(getValueByType(document, country,"soldiers").get(0).getTextContent());
+        //int soldierCount=Integer.parseInt(childNodes1.item(1).getTextContent());
         return soldierCount;
 
     }
-
     private static int getWeaponNumber(Document document, String country){
         int weaponNumber;
         NodeList childNodes1 = document.getElementsByTagName(country).item(0).getChildNodes();
-        weaponNumber = Integer.parseInt(childNodes1.item(5).getTextContent());
+        weaponNumber = Integer.parseInt(getValueByType(document, country,"weapons").get(0).getTextContent());
+        //weaponNumber = Integer.parseInt(childNodes1.item(5).getTextContent());
         return weaponNumber;
     }
+
+    public static List<Node> getValueByType(Document document, String country, String noun){
+        NodeList childNodes = document.getElementsByTagName(country).item(0).getChildNodes();
+        List<Node> nodeList = new ArrayList<>();
+        String value = "";
+            for (int i= 0; i < childNodes.getLength(); i++){
+                Node childNode = childNodes.item(i);
+                if(childNode.getNodeType()==Node.ELEMENT_NODE) {
+                    Element elem = (Element) childNode;
+                    if (elem.getAttribute("type").equals(noun)||(elem.getAttribute("id").equals(noun))){
+                        nodeList.add(elem);
+                    }
+                }
+            }
+
+        //int soldierCount=Integer.parseInt(childNodes.item(1).getTextContent());
+        return nodeList;
+    }
+//    public static NodeList getValuesById(Document document, String country, String noun){
+//
+//    }
+
+
     // function to be used to get numbers of soldiers from current country and country to be attacked
     private static String combat(Document document, String attackCountry){
         CombatEngine combatEngine = new CombatEngine();
@@ -259,43 +255,61 @@ public class TextParser {
         int currentCombatPower = combatEngine.combatPower(curCountrySoldierNumber,curWeaponNumber);
         int desCombatPower = combatEngine.combatPower(desSoldierNumber,desWeaponsNumber);
 
+        //checking battle outcome between two nations
         if (currentCombatPower>desCombatPower){
-            System.out.println("You win!");
             result = attackCountry;
+            //recruiting soldiers and extracting weapons from losing nation
             int recruitSoldierCount = (int)(desSoldierNumber*0.5);
             curCountrySoldierNumber += recruitSoldierCount;
             int collectedWeaponNumber = (int)(desWeaponsNumber*0.5);
             curWeaponNumber += collectedWeaponNumber;
+            //set the losing teams soldier to zero
+            desSoldierNumber = 0;
+            desWeaponsNumber = 0;
 
-            System.out.println("You recruited "+ recruitSoldierCount
-                    + " enemy soldiers. You have :" + curCountrySoldierNumber + " soldiers");
-            System.out.println("You have collected "+ collectedWeaponNumber+ ". Now, you have "+curWeaponNumber + " weapons");
-            updateNumberOfSoldier(document, curCountrySoldierNumber,"kattegat");
-            updateWeaponNumber(document,curWeaponNumber,"kattegat");
+            //display on the main text area
+            setMessage("You win!" + "\nYou recruited "+ recruitSoldierCount
+                    + " enemy soldiers. You have :" + curCountrySoldierNumber + " soldiers"
+            + "\nYou have collected "+ collectedWeaponNumber+ ". Now, you have "+curWeaponNumber + " weapons");
+
         }else {
-            System.out.println("You loose!");
             result = "kattegat";
+            //deducting soldiers and weapons from total from player
             int lostSoldierCount= (int)(curCountrySoldierNumber*0.25);
             curCountrySoldierNumber -=lostSoldierCount;
             int lostWeaponsNumber = (int)(curWeaponNumber *0.25);
             curWeaponNumber -= lostWeaponsNumber;
-            System.out.println("You lost "+ lostSoldierCount+ " soldiers. You only have: "+
-                    curCountrySoldierNumber+" soldiers.");
-            System.out.println("You lost "+lostWeaponsNumber+ " weapons. Now, you have "+ curWeaponNumber+ " weapons.");
 
-            updateNumberOfSoldier(document, curCountrySoldierNumber,"kattegat");
-            updateWeaponNumber(document,curWeaponNumber,"kattegat");
+            //display message
+            setMessage("You loose!"+"\nYou lost "+ lostSoldierCount+ " soldiers. You only have: "+
+                    curCountrySoldierNumber+" soldiers."+"\nYou lost "+lostWeaponsNumber+ " weapons. Now, you have "+ curWeaponNumber+ " weapons.");
+
         }
+        //updating number of soldiers and weapons according to the battle
+        updateNumberOfSoldier(document, desSoldierNumber,attackCountry);
+        updateNumberOfSoldier(document, curCountrySoldierNumber,"kattegat");
+        updateWeaponNumber(document,desWeaponsNumber,attackCountry);
+        updateWeaponNumber(document,curWeaponNumber,"kattegat");
+
+       Statistics.setHeader("soldiers",String.valueOf(curCountrySoldierNumber));
+        Statistics.setHeader("weapons",String.valueOf(curWeaponNumber));
+
         return result;
     }
 
     private static void updateNumberOfSoldier(Document document, int curCountrySoldierNumber,String countryName) {
-        document.getElementsByTagName(countryName).item(0).getChildNodes().item(1).
-                setTextContent(String.valueOf(curCountrySoldierNumber));
+        getValueByType(document, countryName,"soldiers").get(0)
+                .setTextContent(String.valueOf(curCountrySoldierNumber));
+
+
+        //document.getElementsByTagName(countryName).item(0).getChildNodes().item(1).
+                //setTextContent(String.valueOf(curCountrySoldierNumber));
     }
     private static void updateWeaponNumber(Document document, int curWeaponNumber, String countryName){
-        document.getElementsByTagName(countryName).item(0).getChildNodes().item(5).
-                setTextContent(String.valueOf(curWeaponNumber));
+        getValueByType(document, countryName,"weapons").get(0)
+                .setTextContent(String.valueOf(curWeaponNumber));
+        //document.getElementsByTagName(countryName).item(0).getChildNodes().item(5).
+                //setTextContent(String.valueOf(curWeaponNumber));
     }
 
     public static List<String> trim(String word){
@@ -330,6 +344,8 @@ public class TextParser {
             Document document = mydocbuilder.parse(file);
             document.getDocumentElement().normalize();
 
+            String item = textParser("pick", "horse", "kattegat", document);
+            System.out.println(item);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {
