@@ -35,7 +35,7 @@ public class ApplicationRenderer{
     //Font styling
     Font titleFont = new Font("Times New Roman", Font.BOLD,70);
     Font btnFont = new Font("Times New Roman", Font.PLAIN,30);
-    Font textAreaFont = new Font("Times New Roman", Font.PLAIN,30);
+    Font textAreaFont = new Font("Times New Roman", Font.PLAIN,20);
     Font playerHeaderFont = new Font("Times New Roman", Font.PLAIN,20);
     JButton startButton, inputButton;
     ImageIcon backgroundImage;
@@ -131,7 +131,7 @@ public class ApplicationRenderer{
         backgroundLabel = new JLabel();
         backgroundLabel.setSize(backgroundPanel.getWidth(),backgroundPanel.getHeight());
         //fetching image icon from device
-        backgroundImage = new ImageIcon(new ImageIcon("C:\\Users\\sanju\\Desktop\\Capstone\\Ragnar-lothbrok\\src\\rag.jpg")
+        backgroundImage = new ImageIcon(new ImageIcon("Ragnar-lothbrok/files/rag.jpg")
                 .getImage().getScaledInstance(backgroundLabel.getWidth(), backgroundLabel.getHeight(), Image.SCALE_SMOOTH));
         backgroundLabel.setIcon(backgroundImage);
         backgroundPanel.add(backgroundLabel);
@@ -150,7 +150,7 @@ public class ApplicationRenderer{
         //start button design
         startButton = new JButton("START");
         startButton.setBackground(Color.black);
-        startButton.setForeground(Color.lightGray);
+        startButton.setForeground(Color.black);
         startButton.setFont(btnFont);
         //adding event listener to the button
         startButton.addActionListener(tSR);
@@ -175,7 +175,9 @@ public class ApplicationRenderer{
         con.add(mainTxtPanel);
 
         //main text area design
-        mainTxtArea = new JTextArea("This is where we display the message");
+        mainTxtArea = new JTextArea("You are King Ragnar Lothbrok. \n" +
+                "You dream to sail west and raid the western countries.\n" +
+                "Your goal is to invade and rule over all possible countries");
         mainTxtArea.setBounds(100,145,800,300);
         mainTxtArea.setBackground(Color.black);
         mainTxtArea.setForeground(Color.white);
@@ -305,6 +307,7 @@ public class ApplicationRenderer{
     }
 
     public void makeNextMove() {
+
         //adding list of direction to the HashSet
         availableDirections.addAll(Arrays.asList(directionList));
         //retrieving list of items to pick from country and store in variable
@@ -346,6 +349,12 @@ public class ApplicationRenderer{
                             // }else{
                             //setMessage("Where do you want to go?" + availableDirections);
                             //}
+                            if(!defeatedCountry.contains(curCountry)){
+                                setMessage(TextParser.getValueByType(document,curCountry,"entrymessage").get(0).getTextContent());
+                            }else{
+                                setMessage("This is your territory now..");
+                            }
+
                         }else if(!neighborsSet.contains(travelCountry)){
                             curCountry = country.getNameOfCountry();
                             System.out.println(curCountry);
@@ -386,8 +395,15 @@ public class ApplicationRenderer{
                     if(!(curCountry.equals("kattegat") || curCountry.equals("iceland"))){
                         String countryAttacked = "";
                         if(!defeatedCountry.contains(curCountry)){
-                            countryAttacked = country.attack(curCountry,document);
-                            defeatedCountry.add(countryAttacked);
+                            setMessage("The battle begins.;Bloods are shattered everywhere.;The sound of swords clashing can be heard from distance.;Arrows are flying in both ways.");
+                            try {
+                            System.out.println("oh my god they killed kenny");
+                                Thread.sleep(3000);
+                                countryAttacked = country.attack(curCountry,document);
+                                defeatedCountry.add(countryAttacked);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }else{
                             setMessage(curCountry + " already defeated");
                         }
