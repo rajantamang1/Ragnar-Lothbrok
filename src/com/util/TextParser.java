@@ -240,6 +240,9 @@ public class TextParser {
     // function to be used to get numbers of soldiers from current country and country to be attacked
     private static String combat(Document document, String attackCountry) throws NoSuchFieldException {
         CombatEngine combatEngine = new CombatEngine();
+        String selectSoldierNumberDisplay = JOptionPane.showInputDialog(ApplicationRenderer.window,
+                "How many soldiers, you want to attack with");
+        int selectNumberOfSoldier = Integer.parseInt(selectSoldierNumberDisplay);
         int desSoldierNumber ;
         int curCountrySoldierNumber;
         int desWeaponsNumber;
@@ -254,7 +257,7 @@ public class TextParser {
         curCountrySoldierNumber = getSoldierNumber(document,"kattegat");
         curWeaponNumber = getWeaponNumber(document,"kattegat");
         System.out.println("You are in war");
-        int currentCombatPower = combatEngine.combatPower(curCountrySoldierNumber,curWeaponNumber);
+        int currentCombatPower = combatEngine.combatPower(selectNumberOfSoldier,curWeaponNumber);
         int desCombatPower = combatEngine.combatPower(desSoldierNumber,desWeaponsNumber);
 
         //checking battle outcome between two nations
@@ -262,7 +265,9 @@ public class TextParser {
             result = attackCountry;
             //recruiting soldiers and extracting weapons from losing nation
             int recruitSoldierCount = (int)(desSoldierNumber*0.5);
+            int lostSoldierCount = (int) (selectNumberOfSoldier*0.1);
             curCountrySoldierNumber += recruitSoldierCount;
+            curCountrySoldierNumber = curCountrySoldierNumber-lostSoldierCount;
             int collectedWeaponNumber = (int)(desWeaponsNumber*0.5);
             curWeaponNumber += collectedWeaponNumber;
             //set the losing teams soldier to zero
@@ -283,14 +288,14 @@ public class TextParser {
             }*/
 
             //display on the main text area
-            setMessage("You win!" + "\nYou recruited "+ recruitSoldierCount
+            setMessage("You win!" + "You lost your own"+ lostSoldierCount+" soldiers. \nYou recruited "+ recruitSoldierCount
                     + " enemy soldiers. You have :" + curCountrySoldierNumber + " soldiers"
             + "\nYou have collected "+ collectedWeaponNumber+ ". Now, you have "+curWeaponNumber + " weapons");
 
         }else {
             result = "kattegat";
             //deducting soldiers and weapons from total from player
-            int lostSoldierCount= (int)(curCountrySoldierNumber*0.25);
+            int lostSoldierCount= (int)(selectNumberOfSoldier*0.25);
             curCountrySoldierNumber -=lostSoldierCount;
             int lostWeaponsNumber = (int)(curWeaponNumber *0.25);
             curWeaponNumber -= lostWeaponsNumber;

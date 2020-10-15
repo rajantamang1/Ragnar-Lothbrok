@@ -31,7 +31,7 @@ public class ApplicationRenderer{
             currentCountryLabel, currentCountryValueLabel,
             inputTextFieldLabel, inventoryLabel, inventoryValueLabel;
 
-    JFrame window;
+    public static JFrame window;
     JFrame map;
     Container con;
     //Font styling
@@ -199,7 +199,7 @@ public class ApplicationRenderer{
         con.add(playerHeaderPanel);
 
         //header label design
-        currentCountryLabel = new JLabel("Country: ");
+        currentCountryLabel = new JLabel(" Country: ");
         currentCountryLabel.setFont(playerHeaderFont);
         currentCountryLabel.setForeground(Color.white);
         //add label to panel
@@ -259,7 +259,7 @@ public class ApplicationRenderer{
         //add header panel to container
         con.add(inputTextPanel);
 
-        inputTextFieldLabel = new JLabel("Next move: ");
+        inputTextFieldLabel = new JLabel("  Next move: ");
         inputTextFieldLabel.setBounds(100,565,200,50);
         inputTextFieldLabel.setFont(textAreaFont);
         inputTextFieldLabel.setForeground(Color.white);
@@ -517,7 +517,7 @@ public class ApplicationRenderer{
                     if(!(curCountry.equals("kattegat") || curCountry.equals("iceland"))){
                         String countryAttacked = "";
                         if(!defeatedCountry.contains(curCountry)){
-                            setMessage("The battle begins.;Bloods are shattered everywhere.;The sound of swords clashing can be heard from distance.;Arrows are flying in both ways.");
+                            setMessage("The battle is about to begin.;Bloods are about to be shattered everywhere.;The sound of soldiers marching can be heard from distance.");
                             try {
                                 Thread.sleep(3000);
                                 countryAttacked = country.attack(curCountry,document);
