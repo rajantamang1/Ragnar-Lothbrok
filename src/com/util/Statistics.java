@@ -1,8 +1,5 @@
 package com.util;
 
-
-import jdk.swing.interop.SwingInterOpUtils;
-
 import static com.game.ApplicationRenderer.getMainTxtArea;
 import static com.game.ApplicationRenderer.getSoldierCountNumberLabel;
 import static com.game.ApplicationRenderer.getWeaponCountNumberLabel;

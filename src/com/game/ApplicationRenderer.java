@@ -65,14 +65,20 @@ public class ApplicationRenderer{
 
     //Accessing XML file
     File file = new File("Ragnar-lothbrok/files/test.xml");
+    File synonymFile = new File("Ragnar-lothbrok/files/synonyms.xml");
     DocumentBuilderFactory myBuilder = DocumentBuilderFactory.newInstance();
     DocumentBuilder myDocBuilder;
     Document document;
+    Document synonymDocument;
     {
         try {
             myDocBuilder = myBuilder.newDocumentBuilder();
+            //text parser for synonym file
+            synonymDocument = myDocBuilder.parse(synonymFile);
+            //main document
             document = myDocBuilder.parse(file);
             document.getDocumentElement().normalize();
+            synonymDocument.getDocumentElement().normalize();
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
@@ -425,6 +431,18 @@ public class ApplicationRenderer{
             show();
         }
     }
+
+    private Set<String> getSynonymSet(String synonymType) {
+        Set <String> set = new HashSet<>();
+        String [] goList = TextParser.getValueByType(synonymDocument, "synonyms", synonymType)
+                .get(0)
+                .getTextContent()
+                .split(",");
+
+        set.addAll(Arrays.asList(goList));
+        return set;
+    }
+
     public void makeNextMove() {
 
         //adding list of direction to the HashSet
@@ -437,8 +455,7 @@ public class ApplicationRenderer{
         inspectableItems.addAll(TextParser.getValueByType(document, curCountry, "inspectable"));
         //converting lambda into string
         inspectableItems.forEach(item-> System.out.println(item.getTextContent()));
-        //System.out.println(inspectableItems);
-        //getting text form text field
+
         String userInput = inputTextField.getText();
 
             if(userInput.equals("")) {
@@ -449,7 +466,7 @@ public class ApplicationRenderer{
                 //String newCountry = "";
                 String itemsVisible = "";
                 // mainTxtArea.setText(userInput);
-                if ((inputArray[0].equals("sail")) | (inputArray[0].equals("go"))) {
+                if (getSynonymSet("goset").contains(inputArray[0])) {
                     String[] neighbors = {};
                     Node countryChild =null;
                     if(!inventoryMap.containsKey("boat")){
@@ -487,10 +504,10 @@ public class ApplicationRenderer{
                     }else{
                         setMessage("Need valid direction !");
                     }
-                } else if (inputArray[0].equals("look") | inputArray[0].equals("overlook") | inputArray[0].equals("observe") | inputArray[0].equals("view")) {
+                } else if (getSynonymSet("lookset").contains(inputArray[0])){
                      String visibleItems = country.look(document);
                     setMessage("You can see ["+ visibleItems + "]");
-                } else if (inputArray[0].equals("pick") | inputArray[0].equals("get")) {
+                } else if (getSynonymSet("pickset").contains(inputArray[0])) {
                     if(inputArray.length == 2 && availableInventory.contains(inputArray[1])) {
                         if(!inputArray[1].equals("houses")){
                             String[] keyValue = country.getItem(inputArray[1], curCountry,document).split(",");
@@ -504,7 +521,7 @@ public class ApplicationRenderer{
                     }else{
                         setMessage("Pick from inventory list: "+ availableInventory);
                     }
-                } else if (inputArray[0].equals("inspect") | inputArray[0].equals("check") | inputArray[0].equals("investigate") | inputArray[0].equals("examine")) {
+                } else if (getSynonymSet("inspectset").contains(inputArray[0])){
                     if(inputArray[1].equals("houses")){
                         String inspectedValues =country.inspect(inputArray[1], curCountry,document);
                         setMessage("You found "+ inspectedValues);
@@ -512,7 +529,7 @@ public class ApplicationRenderer{
                         setMessage("You can't inspect" + inputArray[1]);
                     }
 
-                }else if (inputArray[0].equals("attack") | inputArray[0].equals("engage")) {
+                }else if (getSynonymSet("attackset").contains(inputArray[0])) {
 
                     if(!(curCountry.equals("kattegat") || curCountry.equals("iceland"))){
                         String countryAttacked = "";
