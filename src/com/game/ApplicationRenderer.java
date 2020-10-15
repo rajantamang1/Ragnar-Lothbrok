@@ -15,6 +15,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.security.Key;
 import java.util.*;
 
@@ -31,22 +32,26 @@ public class ApplicationRenderer{
             inputTextFieldLabel, inventoryLabel, inventoryValueLabel;
 
     JFrame window;
+    JFrame map;
     Container con;
     //Font styling
     Font titleFont = new Font("Times New Roman", Font.BOLD,70);
     Font btnFont = new Font("Times New Roman", Font.PLAIN,30);
     Font textAreaFont = new Font("Times New Roman", Font.PLAIN,20);
     Font playerHeaderFont = new Font("Times New Roman", Font.PLAIN,20);
-    JButton startButton, inputButton;
+    JButton startButton, inputButton, showMapButton;
     ImageIcon backgroundImage;
     JTextField inputTextField;
 
     public static JTextArea mainTxtArea;
-    public static JLabel soldierCountNumberLabel, weaponCountNumberLabel;
+    public static JLabel soldierCountNumberLabel, weaponCountNumberLabel,
+            vicIreland,vicRussia,vicSweden,vicDenmark,vicFrance,vicNorthum, victorySign;
 
     //instantiating classes
     TitleScreenRenderer tSR = new TitleScreenRenderer();
     ProcessInput pInput = new ProcessInput();
+    DisplayMap dMap = new DisplayMap();
+
     Country country = new Country();
     Set<String> defeatedCountry = new HashSet<>();
     CombatEngine combatEngine = new CombatEngine();
@@ -82,8 +87,6 @@ public class ApplicationRenderer{
     public static JLabel getWeaponCountNumberLabel() {
         return weaponCountNumberLabel;
     }
-
-
 
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -270,7 +273,7 @@ public class ApplicationRenderer{
         inputButton.setBounds(400, 565, 100,50);
         inputButton.setFont(btnFont);
         inputButton.setBackground(Color.black);
-        inputButton.setForeground(Color.lightGray);
+        inputButton.setForeground(Color.black);
         //adding event listener to the button
         inputButton.addActionListener(pInput);
 
@@ -287,6 +290,97 @@ public class ApplicationRenderer{
 
         inputTextPanel.add(inputButton);
         inputButton.setFocusPainted(false); //removes extra box in the button
+
+        //Designing button for viewing map
+        showMapButton = new JButton("Show Map");
+        showMapButton.setBounds(400, 565, 100,50);
+        showMapButton.setFont(btnFont);
+        showMapButton.setBackground(Color.black);
+        showMapButton.setForeground(Color.black);
+        //adding event listener to the button
+        showMapButton.addActionListener(dMap);
+        //adding button to the main panel
+        inputTextPanel.add(showMapButton);
+        showMapButton.setFocusPainted(false); //removes extra box in the button
+    }
+    //method that populates the map on a button click
+    private void show(){
+
+        //Designing a map frame
+        map = new JFrame();
+        map.setSize(400, 400);
+        map.setResizable(false);
+        map.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        map.getContentPane().setBackground(Color.BLACK);
+        map.setLayout(null);
+
+        //Instantiating a container for map
+        Container mapCon = map.getContentPane();
+
+        //background panel designs
+        JPanel mapBackgroundPanel = new JPanel();
+        mapBackgroundPanel.setBounds(0,0, map.getWidth(), map.getHeight());
+
+        //setting background label with map as image icon
+        JLabel mapBackgroundLabel = new JLabel();
+        mapBackgroundLabel.setSize(map.getWidth(),map.getHeight());
+        //fetching image icon from device
+        ImageIcon mapImage = new ImageIcon(new ImageIcon("Ragnar-lothbrok/files/map.png")
+                .getImage().getScaledInstance(map.getWidth()-5, map.getHeight()-5, Image.SCALE_SMOOTH));
+        mapBackgroundLabel.setIcon(mapImage);
+        mapBackgroundPanel.add(mapBackgroundLabel);
+
+        //victory picture
+        ImageIcon victoryImage = new ImageIcon(new ImageIcon("Ragnar-lothbrok/files/victory.png")
+                .getImage().getScaledInstance(50,30, Image.SCALE_SMOOTH));
+
+        //Russia victory label
+        vicRussia = new JLabel();
+        vicRussia.setIcon(victoryImage);
+        vicRussia.setBounds(310, 110, 50,30);
+        mapBackgroundLabel.add(vicRussia);
+        vicRussia.setVisible(false);
+
+        //Sweden victory Label
+        vicSweden = new JLabel();
+        vicSweden.setIcon(victoryImage);
+        vicSweden.setBounds(200, 105, 50,30);
+        mapBackgroundLabel.add(vicSweden);
+        vicSweden.setVisible(false);
+
+        //Denmark victory Label
+        vicDenmark = new JLabel();
+        vicDenmark.setIcon(victoryImage);
+        vicDenmark.setBounds(125, 175, 50,30);
+        mapBackgroundLabel.add(vicDenmark);
+        vicDenmark.setVisible(false);
+
+        //France victory Label
+        vicFrance = new JLabel();
+        vicFrance.setIcon(victoryImage);
+        vicFrance.setBounds(110, 265, 50,30);
+        mapBackgroundLabel.add(vicFrance);
+        vicFrance.setVisible(false);
+
+        //Northumbria victory Label
+        vicNorthum = new JLabel();
+        vicNorthum.setIcon(victoryImage);
+        vicNorthum.setBounds(30, 225, 50,30);
+        mapBackgroundLabel.add(vicNorthum);
+        vicNorthum.setVisible(false);
+
+        //Ireland victory Label
+        vicIreland = new JLabel();
+        vicIreland.setIcon(victoryImage);
+        vicIreland.setBounds(5, 175, 50,30);
+        mapBackgroundLabel.add(vicIreland);
+        vicIreland.setVisible(false);
+
+        //add background panel to container
+        mapCon.add(mapBackgroundPanel);
+        map.setLocation(showMapButton.getLocationOnScreen().x-400,showMapButton.getLocationOnScreen().y-400);
+        //make map frame visible
+        map.setVisible(true);
     }
 
     public class TitleScreenRenderer implements ActionListener{
@@ -305,7 +399,13 @@ public class ApplicationRenderer{
             inputTextField.setText("");
         }
     }
+    public class DisplayMap implements ActionListener{
 
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            show();
+        }
+    }
     public void makeNextMove() {
 
         //adding list of direction to the HashSet
@@ -397,7 +497,6 @@ public class ApplicationRenderer{
                         if(!defeatedCountry.contains(curCountry)){
                             setMessage("The battle begins.;Bloods are shattered everywhere.;The sound of swords clashing can be heard from distance.;Arrows are flying in both ways.");
                             try {
-                            System.out.println("oh my god they killed kenny");
                                 Thread.sleep(3000);
                                 countryAttacked = country.attack(curCountry,document);
                                 defeatedCountry.add(countryAttacked);

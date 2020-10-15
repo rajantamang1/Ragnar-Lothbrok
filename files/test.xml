@@ -37,6 +37,7 @@
         <property type="boat">5</property>
 
         <entrymessage type="entrymessage">You are in Sweden;Rich archaeological spot in the Baltic Sea for trading voyages;You can see vast mountains and forest regions in the north;lowland in the east and highland in the west</entrymessage>
+        <lostsign type="victorySign">vicSweden</lostsign>
         <neighbors type="neighbors">kattegat,russia</neighbors>
         <direction type="north">nowhere</direction>
         <direction type="south">nowhere</direction>
@@ -59,6 +60,7 @@
         <property type="boat">5</property>
 
         <entrymessage type="entrymessage">oooo cheese danish</entrymessage>
+        <lostsign type="victorySign">vicDenmark</lostsign>
         <direction type="north">kattegat</direction>
         <direction type="south">france</direction>
         <direction type="east">nowhere</direction>
@@ -80,6 +82,7 @@
         <property type="boat">5</property>
 
         <entrymessage type="entrymessage">oooo tea</entrymessage>
+        <lostsign type="victorySign">vicNorthum</lostsign>
         <direction type="north">ireland</direction>
         <direction type="south">france</direction>
         <direction type="east">denmark</direction>
@@ -102,6 +105,7 @@
         <property type="boat">5</property>
 
         <entrymessage type="entrymessage">oooo french vanilla</entrymessage>
+        <lostsign type="victorySign">vicFrance</lostsign>
         <direction type="north">denmark</direction>
         <direction type="south">nowhere</direction>
         <direction type="east">nowhere</direction>
@@ -122,6 +126,7 @@
         <property type="boat">5</property>
 
         <entrymessage type="entrymessage">oo ice</entrymessage>
+        <lostsign type="victorySign">vicIreland</lostsign>
         <direction type="north">nowhere</direction>
         <direction type="south">kattegat</direction>
         <direction type="east">nowhere</direction>

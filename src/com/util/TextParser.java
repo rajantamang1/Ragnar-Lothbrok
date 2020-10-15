@@ -1,5 +1,6 @@
 package com.util;
 
+import com.game.ApplicationRenderer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -266,6 +267,16 @@ public class TextParser {
             //set the losing teams soldier to zero
             desSoldierNumber = 0;
             desWeaponsNumber = 0;
+
+            String victorySign = getValueByType(document, result,"victorySign").get(0).getTextContent();
+
+
+          /*  try{
+                ApplicationRenderer.class.getDeclaredField(victorySign);
+
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }*/
 
             //display on the main text area
             setMessage("You win!" + "\nYou recruited "+ recruitSoldierCount
