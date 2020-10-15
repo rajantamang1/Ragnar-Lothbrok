@@ -7,6 +7,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -237,7 +238,7 @@ public class TextParser {
 
 
     // function to be used to get numbers of soldiers from current country and country to be attacked
-    private static String combat(Document document, String attackCountry){
+    private static String combat(Document document, String attackCountry) throws NoSuchFieldException {
         CombatEngine combatEngine = new CombatEngine();
         int desSoldierNumber ;
         int curCountrySoldierNumber;
@@ -268,8 +269,11 @@ public class TextParser {
             desSoldierNumber = 0;
             desWeaponsNumber = 0;
 
-            String victorySign = getValueByType(document, result,"victorySign").get(0).getTextContent();
-
+            /*String victorySign = getValueByType(document, result,"victorySign").get(0).getTextContent();
+            if(victorySign.equals("vicSweden")){
+                ApplicationRenderer.vicSweden.setVisible(true);
+                System.out.println(victorySign);
+            }*/
 
           /*  try{
                 ApplicationRenderer.class.getDeclaredField(victorySign);

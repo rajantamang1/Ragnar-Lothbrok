@@ -165,6 +165,7 @@ public class ApplicationRenderer{
 
     //New Game screen method
     public void createGameScreen(){
+
         //making panels visible
         titlePanel.setVisible(false);
         startButton.setVisible(false);
@@ -339,7 +340,10 @@ public class ApplicationRenderer{
         vicRussia.setIcon(victoryImage);
         vicRussia.setBounds(310, 110, 50,30);
         mapBackgroundLabel.add(vicRussia);
-        vicRussia.setVisible(false);
+       vicRussia.setVisible(false);
+        if(defeatedCountry.contains("russia")){
+            vicRussia.setVisible(true);
+        }
 
         //Sweden victory Label
         vicSweden = new JLabel();
@@ -347,6 +351,10 @@ public class ApplicationRenderer{
         vicSweden.setBounds(200, 105, 50,30);
         mapBackgroundLabel.add(vicSweden);
         vicSweden.setVisible(false);
+        System.out.println(defeatedCountry);
+        if(defeatedCountry.contains("sweden")){
+            vicSweden.setVisible(true);
+        }
 
         //Denmark victory Label
         vicDenmark = new JLabel();
@@ -354,6 +362,9 @@ public class ApplicationRenderer{
         vicDenmark.setBounds(125, 175, 50,30);
         mapBackgroundLabel.add(vicDenmark);
         vicDenmark.setVisible(false);
+        if(defeatedCountry.contains("denmark")){
+            vicDenmark.setVisible(true);
+        }
 
         //France victory Label
         vicFrance = new JLabel();
@@ -361,6 +372,9 @@ public class ApplicationRenderer{
         vicFrance.setBounds(110, 265, 50,30);
         mapBackgroundLabel.add(vicFrance);
         vicFrance.setVisible(false);
+        if(defeatedCountry.contains("france")){
+            vicFrance.setVisible(true);
+        }
 
         //Northumbria victory Label
         vicNorthum = new JLabel();
@@ -368,6 +382,9 @@ public class ApplicationRenderer{
         vicNorthum.setBounds(30, 225, 50,30);
         mapBackgroundLabel.add(vicNorthum);
         vicNorthum.setVisible(false);
+        if(defeatedCountry.contains("northumbria")){
+            vicNorthum.setVisible(true);
+        }
 
         //Ireland victory Label
         vicIreland = new JLabel();
@@ -375,7 +392,9 @@ public class ApplicationRenderer{
         vicIreland.setBounds(5, 175, 50,30);
         mapBackgroundLabel.add(vicIreland);
         vicIreland.setVisible(false);
-
+        if(defeatedCountry.contains("ireland")){
+            vicIreland.setVisible(true);
+        }
         //add background panel to container
         mapCon.add(mapBackgroundPanel);
         map.setLocation(showMapButton.getLocationOnScreen().x-400,showMapButton.getLocationOnScreen().y-400);
@@ -432,7 +451,10 @@ public class ApplicationRenderer{
                 // mainTxtArea.setText(userInput);
                 if ((inputArray[0].equals("sail")) | (inputArray[0].equals("go"))) {
                     String[] neighbors = {};
-                    Node countryChild = (TextParser.getValueByType(document, curCountry, "neighbors")).get(0);
+                    Node countryChild =null;
+                    if(!inventoryMap.containsKey("boat")){
+                        countryChild= (TextParser.getValueByType(document, curCountry, "neighbors")).get(0);
+                    }
                     if(countryChild != null){
                         neighbors = countryChild.getTextContent().split(",");
                         System.out.println(neighbors[0] + " " + neighbors[1]);
