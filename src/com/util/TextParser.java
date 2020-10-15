@@ -126,12 +126,21 @@ public class TextParser {
                 Element elem = (Element) childNode;
 
                 if (item.equals("")) {
+                    //This is for look
                     if (elem.getTagName().equals("property")) {
-                        stringBuilder.append(elem.getAttribute("type"))
-                                .append(",");
-                    }
-                } else {
+                        stringBuilder.append(elem.getAttribute("type"));
 
+                        if(!elem.getAttribute("type").equals("houses")){
+                            stringBuilder.append(" - ");
+                            stringBuilder.append(elem.getTextContent())
+                             .append(",");
+                        }else{
+                            stringBuilder.append(",");
+                        }
+                    }
+
+                } else {
+                   // This is for inspecting
                     if (elem.getTagName().equals("property") && elem.getAttribute("id").equals("inspectable")
                     && elem.getAttribute("type").equals(item)) {
                         NodeList inspectedItem = elem.getElementsByTagName("inner");

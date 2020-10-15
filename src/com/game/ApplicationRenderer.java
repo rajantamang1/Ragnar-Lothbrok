@@ -548,7 +548,11 @@ public class ApplicationRenderer{
                     }else {
                         setMessage("you cannot attack!!");
                     }
-                }else{
+                }else if (getSynonymSet("spyset").contains(inputArray[0])){
+
+                }
+
+                else{
                     setMessage("Doesn't seem to work");
                 }
                 System.out.println(defeatedCountry);
