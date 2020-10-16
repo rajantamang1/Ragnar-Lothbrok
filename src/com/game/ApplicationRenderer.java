@@ -533,6 +533,7 @@ public class ApplicationRenderer{
 
                     if(!(curCountry.equals("kattegat") || curCountry.equals("iceland"))){
                         String countryAttacked = "";
+
                         if(!defeatedCountry.contains(curCountry)){
                             setMessage("The battle is about to begin.;Bloods are about to be shattered everywhere.;The sound of soldiers marching can be heard from distance.");
                             try {
@@ -548,8 +549,8 @@ public class ApplicationRenderer{
                     }else {
                         setMessage("you cannot attack!!");
                     }
-                }else if (getSynonymSet("spyset").contains(inputArray[0])){
-
+                }else if (inputArray[0].equals("flee")){
+                    TextParser.myThread.interrupt();
                 }
 
                 else{
