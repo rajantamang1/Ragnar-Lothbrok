@@ -1,20 +1,17 @@
 package com.util;
-import java.security.KeyStore;
-import java.util.*;
 
+import java.util.*;
 import com.game.ApplicationRenderer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import static com.util.Statistics.setMessage;
 
 public class TextParser extends Thread{
@@ -53,7 +50,7 @@ public class TextParser extends Thread{
                     result = combat(document, countryName);
                     break;
                 case "flee":
-                    flee(document, countryName);
+                    flee(document);
                     break;
             }
         } catch (Exception e) {
@@ -171,7 +168,6 @@ public class TextParser extends Thread{
         }
 
 
-        // NodeList sailNodeList = document.getElementsByTagName("direction");
         String desCountry = "";
         for (int i = 0; i < childNodes.getLength(); i++) {
             Node childNode = childNodes.item(i);
@@ -186,10 +182,11 @@ public class TextParser extends Thread{
         if (desCountry.strip().equals("nowhere")) {
 
             setMessage("That direction leads you to " + desCountry.strip());
+            ambush(document,curCountry);
             return curCountry;
         } else {
             //setMessage("You are in " + desCountry);
-
+            ambush(document,desCountry);
             return desCountry;
         }
 
@@ -309,20 +306,6 @@ public class TextParser extends Thread{
             }
 
         }else {
-            /*if (display.equals("yes")){
-                //country.setNameOfCountry("kattegat");
-                //ApplicationRenderer.curCountry= "kattegat";
-                result="kattegat";
-                //deducting soldiers and weapons from total from player
-                int lostSoldierCount = (int) (selectNumberOfSoldier * 0.10);
-                curCountrySoldierNumber -= lostSoldierCount;
-                int lostWeaponsNumber = (int) (curWeaponNumber * 0.10);
-                curWeaponNumber -= lostWeaponsNumber;
-                //display message
-                setMessage("You loose!" + "\nYou lost " + lostSoldierCount + " soldiers. You only have: " +
-                        curCountrySoldierNumber + " soldiers." + "\nYou lost " +
-                        lostWeaponsNumber + " weapons. Now, you have " + curWeaponNumber + " weapons.");
-            }else{*/
                 result = "kattegat";
                 //deducting soldiers and weapons from total from player
                 int lostSoldierCount = (int) (selectNumberOfSoldier * 0.30);
@@ -353,25 +336,21 @@ public class TextParser extends Thread{
         return result;
     }
 
-    private static void flee(Document document, String attackCountry){
-        //country.setNameOfCountry("kattegat");
-        //ApplicationRenderer.curCountry= "kattegat";
+    private static void flee(Document document){
+
         int curCountrySoldierNumber = getSoldierNumber(document,"kattegat");
         int curWeaponNumber = getWeaponNumber(document,"kattegat");
-        //result="kattegat";
-        //deducting soldiers and weapons from total from player
         int lostSoldierCount = (int) (selectNumberOfSoldier * 0.10);
         curCountrySoldierNumber -= lostSoldierCount;
         int lostWeaponsNumber = (int) (curWeaponNumber * 0.10);
         curWeaponNumber -= lostWeaponsNumber;
+
         //display message
-        setMessage("You loose!" + "\nYou lost " + lostSoldierCount + " soldiers. You only have: " +
+        setMessage("You lost " + lostSoldierCount + " soldiers. You only have: " +
                 curCountrySoldierNumber + " soldiers." + "\nYou lost " +
                 lostWeaponsNumber + " weapons. Now, you have " + curWeaponNumber + " weapons.");
 
-        //updateNumberOfSoldier(document, desSoldierNumber,attackCountry);
         updateNumberOfSoldier(document, curCountrySoldierNumber,"kattegat");
-        //updateWeaponNumber(document,desWeaponsNumber,attackCountry);
         updateWeaponNumber(document,curWeaponNumber,"kattegat");
         Statistics.setHeader("soldiers",String.valueOf(curCountrySoldierNumber));
         Statistics.setHeader("weapons",String.valueOf(curWeaponNumber));
@@ -382,91 +361,6 @@ public class TextParser extends Thread{
     private static int desSoldierNumber;
     private static int desWeaponsNumber;
     public static Thread myThread;
-    // function to be used to get numbers of soldiers from current country and country to be attacked
-    /*private static String combat(Document document, String attackCountry) throws InterruptedException {
-
-        myThread = new Thread(() -> {
-            int curCountrySoldierNumber;
-            int curWeaponNumber;
-            CombatEngine combatEngine = new CombatEngine();
-            String selectSoldierNumberDisplay = JOptionPane.showInputDialog(ApplicationRenderer.window,
-                    "How many soldiers, you want to attack with");
-            int selectNumberOfSoldier = Integer.parseInt(selectSoldierNumberDisplay);
-            for(int i = 0; i < 3 ;i++){
-                desSoldierNumber = getSoldierNumber(document, attackCountry);
-
-                desWeaponsNumber = getWeaponNumber(document, attackCountry);
-                System.out.println("the weapons" + desWeaponsNumber);
-                curCountrySoldierNumber = getSoldierNumber(document, "kattegat");
-                curWeaponNumber = getWeaponNumber(document, "kattegat");
-                System.out.println("You are in war");
-                int currentCombatPower = combatEngine.combatPower(selectNumberOfSoldier, curWeaponNumber);
-                int desCombatPower = combatEngine.combatPower(desSoldierNumber, desWeaponsNumber);
-
-                //checking battle outcome between two nations
-                if (currentCombatPower > desCombatPower) {
-                    result = attackCountry;
-                    //recruiting soldiers and extracting weapons from losing nation
-                    int recruitSoldierCount = (int) (desSoldierNumber * 0.5);
-                    int lostSoldierCount = (int) (selectNumberOfSoldier * 0.1);
-                    curCountrySoldierNumber += recruitSoldierCount;
-                    curCountrySoldierNumber = curCountrySoldierNumber - lostSoldierCount;
-                    int collectedWeaponNumber = (int) (desWeaponsNumber * 0.5);
-                    curWeaponNumber += collectedWeaponNumber;
-                    loserCountryList.add(result);
-
-                    //set the losing teams soldier to zero--------------------------
-
-
-                    //display on the main text area
-                    setMessage("You win!" + "You lost your own" + lostSoldierCount + " soldiers. \nYou recruited " + recruitSoldierCount
-                            + " enemy soldiers. You have :" + curCountrySoldierNumber + " soldiers"
-                            + "\nYou have collected " + collectedWeaponNumber + ". Now, you have " + curWeaponNumber + " weapons");
-
-                } else {
-                    result = "kattegat";
-                    //deducting soldiers and weapons from total from player
-                    int lostSoldierCount = (int) (selectNumberOfSoldier * 0.25);
-                    curCountrySoldierNumber -= lostSoldierCount;
-                    int lostWeaponsNumber = (int) (curWeaponNumber * 0.25);
-                    curWeaponNumber -= lostWeaponsNumber;
-                    loserCountryList.add(result);
-                    //display message
-                    setMessage("You loose!" + "\nYou lost " + lostSoldierCount + " soldiers. You only have: " +
-                            curCountrySoldierNumber + " soldiers." + "\nYou lost " + lostWeaponsNumber + " weapons. Now, you have " + curWeaponNumber + " weapons.");
-
-                }
-
-                //updating number of soldiers and weapons according to the battle
-                updateNumberOfSoldier(document, desSoldierNumber, attackCountry);
-                updateNumberOfSoldier(document, curCountrySoldierNumber, "kattegat");
-                updateWeaponNumber(document, desWeaponsNumber, attackCountry);
-                updateWeaponNumber(document, curWeaponNumber, "kattegat");
-                Statistics.setHeader("soldiers", String.valueOf(curCountrySoldierNumber));
-                Statistics.setHeader("weapons", String.valueOf(curWeaponNumber));
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    //e.printStackTrace();
-                    setMessage("You have fled!!");
-                }
-            }
-        });
-
-        myThread.start();
-        //myThread.join();
-        Thread.sleep(1200);
-        result = bestOfThreeWinner();
-        System.out.println("Winner: " + result);
-
-        if(!result.equals("kattegat")){
-            //loserSoldierCount = getSoldierNumber(document,attackCountry);
-            desSoldierNumber = 0;
-            desWeaponsNumber = 0;
-        }
-
-        return result;
-    }*/
 
     private static String bestOfThreeWinner(){
         int maxCountry = 0;
@@ -517,6 +411,30 @@ public class TextParser extends Thread{
         //return stringBuffer.toString();
         return list;
     }
+
+    public static void ambush(Document document,String opponentCountry){
+        Random rd = new Random();
+        int attackProbability = rd.nextInt(10);
+        if (attackProbability < 3 && !opponentCountry.equals("kattegat")
+        && !opponentCountry.equals("iceland") &&
+                !ApplicationRenderer.defeatedCountry.contains(opponentCountry)){
+            int curCountrySoldierNumber = getSoldierNumber(document,"kattegat");
+            int curWeaponNumber = getWeaponNumber(document,"kattegat");
+            int lostSoldierCount = (int) (curCountrySoldierNumber * 0.10);
+            curCountrySoldierNumber -= lostSoldierCount;
+            int lostWeaponsNumber = (int) (curWeaponNumber * 0.10);
+            curWeaponNumber -= lostWeaponsNumber;
+
+            //display message
+          // setMessage("You lost " + lostSoldierCount + " soldiers. You only have: " + curCountrySoldierNumber + " soldiers." + "\nYou lost " + lostWeaponsNumber + " weapons. Now, you have " + curWeaponNumber + " weapons.");
+            JOptionPane.showMessageDialog(ApplicationRenderer.window,"You got ambushed !!\n"+"You lost " + lostSoldierCount + " soldiers. You only have: " + curCountrySoldierNumber + " soldiers." + "\nYou lost " + lostWeaponsNumber + " weapons. Now, you have " + curWeaponNumber + " weapons.");
+            updateNumberOfSoldier(document, curCountrySoldierNumber,"kattegat");
+            updateWeaponNumber(document,curWeaponNumber,"kattegat");
+            Statistics.setHeader("soldiers",String.valueOf(curCountrySoldierNumber));
+            Statistics.setHeader("weapons",String.valueOf(curWeaponNumber));
+        }
+    }
+
     public static void main(String[] args) {
        // bestOfThreeWinner();
 

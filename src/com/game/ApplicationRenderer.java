@@ -54,7 +54,7 @@ public class ApplicationRenderer{
     DisplayMap dMap = new DisplayMap();
 
     Country country = new Country();
-    Set<String> defeatedCountry = new HashSet<>();
+    public static Set<String> defeatedCountry = new HashSet<>();
     CombatEngine combatEngine = new CombatEngine();
 
     String curCountry = "kattegat";
