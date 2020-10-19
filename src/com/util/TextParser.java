@@ -256,7 +256,6 @@ public class TextParser extends Thread{
         int curCountrySoldierNumber;
         int desWeaponsNumber;
         int curWeaponNumber;
-        //int selectNumberOfSoldier;
         String result;
         desSoldierNumber=getSoldierNumber(document,attackCountry);
         desWeaponsNumber=getWeaponNumber(document,attackCountry);
@@ -328,11 +327,10 @@ public class TextParser extends Thread{
         Statistics.setHeader("weapons",String.valueOf(curWeaponNumber));
 
         //exit threshold
-        if(curCountrySoldierNumber <=400){
+        if(curCountrySoldierNumber <=100){
             JOptionPane.showMessageDialog(ApplicationRenderer.window,"You lost..GAME OVER! ");
             System.exit(0);
         }
-
         return result;
     }
 
@@ -427,7 +425,7 @@ public class TextParser extends Thread{
 
             //display message
           // setMessage("You lost " + lostSoldierCount + " soldiers. You only have: " + curCountrySoldierNumber + " soldiers." + "\nYou lost " + lostWeaponsNumber + " weapons. Now, you have " + curWeaponNumber + " weapons.");
-            JOptionPane.showMessageDialog(ApplicationRenderer.window,"You got ambushed !!\n"+"You lost " + lostSoldierCount + " soldiers. You only have: " + curCountrySoldierNumber + " soldiers." + "\nYou lost " + lostWeaponsNumber + " weapons. Now, you have " + curWeaponNumber + " weapons.");
+            JOptionPane.showMessageDialog(ApplicationRenderer.window,"You walked into an ambush !!\n"+"You lost " + lostSoldierCount + " soldiers. You only have: " + curCountrySoldierNumber + " soldiers." + "\nYou lost " + lostWeaponsNumber + " weapons. Now, you have " + curWeaponNumber + " weapons.");
             updateNumberOfSoldier(document, curCountrySoldierNumber,"kattegat");
             updateWeaponNumber(document,curWeaponNumber,"kattegat");
             Statistics.setHeader("soldiers",String.valueOf(curCountrySoldierNumber));

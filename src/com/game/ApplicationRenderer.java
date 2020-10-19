@@ -1,13 +1,12 @@
 package com.game;
 
 import com.util.CombatEngine;
-import com.util.Statistics;
 import com.util.TextParser;
-import com.util.Typewriter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,8 +15,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.security.Key;
 import java.util.*;
 
 import static com.util.Statistics.setMessage;
@@ -38,8 +35,8 @@ public class ApplicationRenderer{
     //Font styling
     Font titleFont = new Font("Times New Roman", Font.BOLD,70);
     Font btnFont = new Font("Times New Roman", Font.PLAIN,30);
-    Font textAreaFont = new Font("Times New Roman", Font.PLAIN,20);
-    Font playerHeaderFont = new Font("Times New Roman", Font.PLAIN,20);
+    Font textAreaFont = new Font("Times New Roman", Font.PLAIN,22);
+    Font playerHeaderFont = new Font("Times New Roman", Font.PLAIN,22);
     JButton startButton, inputButton, showMapButton;
     ImageIcon backgroundImage;
     JTextField inputTextField;
@@ -60,6 +57,7 @@ public class ApplicationRenderer{
     String curCountry = "kattegat";
     Map<String, String> inventoryMap = new HashMap<>();
     Set<String> availableInventory = new HashSet<>();
+    Set<String> availableInventoryKey = new HashSet<>();
     Set<String> availableDirections = new HashSet<>();
     Set<Node> inspectableItems = new HashSet<>();
     public static final String[] directionList = {"east","west", "north", "south"};
@@ -95,6 +93,7 @@ public class ApplicationRenderer{
         return weaponCountNumberLabel;
     }
 
+    private Clip clip;
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         new ApplicationRenderer();
@@ -102,16 +101,14 @@ public class ApplicationRenderer{
 
     //Constructor
     public ApplicationRenderer() {
+        clip = playSound();
         //design window
-        window = new JFrame();
+        window = new JFrame("Ragnar Lothbrok: We shall drink with Odin one day !");
         window.setSize(1050, 920);
         window.setResizable(false);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.getContentPane().setBackground(Color.BLACK);
         window.setLayout(null);
-
-        //setting background image
-        //window.setContentPane(new JLabel(backgroundImage));
 
         //container
         con = window.getContentPane();
@@ -173,25 +170,27 @@ public class ApplicationRenderer{
     //New Game screen method
     public void createGameScreen(){
 
-        //making panels visible
+        //making panels invisible
         titlePanel.setVisible(false);
         startButton.setVisible(false);
         backgroundPanel.setVisible(false);
+        clip.stop();
+        con.setBackground(Color.CYAN);
 
         //main text panel design
         mainTxtPanel = new JPanel();
         mainTxtPanel.setBounds(100,145,800,300);
-        mainTxtPanel.setBackground(Color.pink);
+        mainTxtPanel.setBackground(Color.gray);
         // adding panel to container
         con.add(mainTxtPanel);
-
         //main text area design
-        mainTxtArea = new JTextArea("You are King Ragnar Lothbrok. \n" +
+        mainTxtArea = new JTextArea();
+        setMessage("You are King Ragnar Lothbrok. \n" +
                 "You dream to sail west and raid the western countries.\n" +
                 "Your goal is to invade and rule over all possible countries");
         mainTxtArea.setBounds(100,145,800,300);
-        mainTxtArea.setBackground(Color.black);
-        mainTxtArea.setForeground(Color.white);
+        mainTxtArea.setBackground(Color.GREEN);
+        mainTxtArea.setForeground(Color.BLACK);
         mainTxtArea.setFont(textAreaFont);
         mainTxtArea.setLineWrap(true);
         //add text area to panel
@@ -274,6 +273,7 @@ public class ApplicationRenderer{
 
         inputTextField =new JTextField();
         inputTextField.setBounds(400, 565, 500,50);
+        inputTextField.setBackground(Color.GREEN);
         inputTextField.setFont(textAreaFont);
         inputTextPanel.add(inputTextField);
 
@@ -444,6 +444,30 @@ public class ApplicationRenderer{
         return set;
     }
 
+    //Added sound clip
+    private static Clip playSound(){
+        Clip result = null;
+        try {
+            File audioFile = new File("Ragnar-lothbrok/files/theme_music_vikings.wav");
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+
+            AudioFormat format = audioInputStream.getFormat();
+            DataLine.Info info = new DataLine.Info(Clip.class, format);
+
+            Clip audioClip = (Clip) AudioSystem.getLine(info);
+
+            audioClip.open(audioInputStream);
+            audioClip.start();
+            result = audioClip;
+
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+        return  result;
+    }
+
+
+    //game logic
     public void makeNextMove() {
 
         //adding list of direction to the HashSet
@@ -492,7 +516,7 @@ public class ApplicationRenderer{
                         }else if(!neighborsSet.contains(travelCountry)){
                             curCountry = country.getNameOfCountry();
                             System.out.println(curCountry);
-                            setMessage("Find Floki to build the boat");
+                            setMessage("Missing Inventory to travel");
                         }else{
                             setMessage("Not working");
                         }
@@ -503,12 +527,16 @@ public class ApplicationRenderer{
                      String visibleItems = country.look(document);
                     setMessage("You can see ["+ visibleItems + "]");
                 } else if (getSynonymSet("pickset").contains(inputArray[0])) {
-                    if(inputArray.length == 2 && availableInventory.contains(inputArray[1])) {
+                    System.out.println("inventory available: " + availableInventory);
+                    System.out.println("input: "+ inputArray[1]);
+                    System.out.println("array length" + inputArray.length);
+                    availableInventory.forEach(a->availableInventoryKey.add(a.split(" ")[0]));
+                    if(inputArray.length == 2 && availableInventoryKey.contains(inputArray[1])) {
                         if(!inputArray[1].equals("houses")){
-                            String[] keyValue = country.getItem(inputArray[1], curCountry,document).split(",");
+                            String[] keyValue = country.getItem(inputArray[1], curCountry,document).split(",", 2);
                             setMessage(keyValue[0] +"," + keyValue[1]);
                             inventoryMap.put(keyValue[0], keyValue[1]);
-                            setMessage("Your possessions: " + inventoryMap);
+                            //setMessage("Your possessions: " + inventoryMap);
                             inventoryValueLabel.setText(inventoryMap.toString());
                         }else{
                             setMessage("Cannot pick " + inputArray[1]);
