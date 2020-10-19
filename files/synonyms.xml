@@ -1,0 +1,8 @@
+<synonyms>
+    <attackset type="attackset">invade,attack,engage,destroy,fight,annihilate</attackset>
+    <goset type="goset">sail,travel,go,proceed,move</goset>
+    <lookset type="lookset">view,overlook,observe,look,overview</lookset>
+    <pickset type="pickset">pick,choose,select,collect</pickset>
+    <inspectset type="inspectset">inspect,investigate,examine,check,monitor,study</inspectset>
+    <spyset type="spyset">spy,surveil,recon,track,watch,scan</spyset>
+</synonyms>

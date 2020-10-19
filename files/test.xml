@@ -1,0 +1,188 @@
+<country>
+    <kattegat>
+        <property type="soldiers">800</property>
+        <property type="houses" id="inspectable">
+            <inner type = "mysterybox" id="inspectable">
+                <extreme type="swords">sword</extreme>
+                <extreme type="treasures">100</extreme>
+            </inner>
+        </property>
+        <property type="weapons">500</property>
+        <property type="locals">10</property>
+        <property type="horse">100</property>
+        <property type="palace">1</property>
+        <property type="boat">5</property>
+
+        <entrymessage type="entrymessage">Welcome home King Ragnar !</entrymessage>
+        <battlemessage type = "battlemessage">fgfg</battlemessage>
+        <neighbors type="neighbors">sweden,russia</neighbors>
+        <direction type="north">iceland</direction>
+        <direction type="south">denmark</direction>
+        <direction type="east">sweden</direction>
+        <direction type="west">ireland</direction>
+    </kattegat>
+
+    <sweden>
+        <property type="soldiers">400</property>
+        <property type="houses">
+            <mysterybox>
+                <swords>sword</swords>
+                <treasures>100</treasures>
+            </mysterybox>
+        </property>
+        <property type="weapons">300</property>
+        <property type="locals">10</property>
+        <property type="horse">100</property>
+        <property type="palace">1</property>
+        <property type="boat">5</property>
+
+        <entrymessage type="entrymessage">You are in Sweden;Rich archaeological spot in the Baltic Sea for trading voyages;You can see vast mountains and forest regions in the north;lowland in the east and highland in the west</entrymessage>
+        <lostsign type="victorySign">vicSweden</lostsign>
+        <neighbors type="neighbors">kattegat,russia</neighbors>
+        <ragnarsoldiers type = "ragnarsoldiers">0</ragnarsoldiers>
+        <direction type="north">nowhere</direction>
+        <direction type="south">nowhere</direction>
+        <direction type="east">russia</direction>
+        <direction type="west">kattegat</direction>
+    </sweden>
+
+    <denmark>
+        <property type="soldiers">400</property>
+        <property type="houses">
+            <mysterybox>
+                <swords>sword</swords>
+                <treasures>100</treasures>
+            </mysterybox>
+        </property>
+        <property type="weapons">300</property>
+        <property type="locals">10</property>
+        <property type="horse">100</property>
+        <property type="palace">1</property>
+        <property type="boat">5</property>
+
+        <entrymessage type="entrymessage">You are in Denmark,;You can see the flat, arable land and sandy coasts in the nearby archipelago.;Your boat crashed on the beach.;You can see the danish in the far off distance with fires cooking wild goats in a nearby village.;You smell the burned flesh of enemies...;</entrymessage>
+        <lostsign type="victorySign">vicDenmark</lostsign>
+        <ragnarsoldiers type = "ragnarsoldiers">0</ragnarsoldiers>
+        <direction type="north">kattegat</direction>
+        <direction type="south">france</direction>
+        <direction type="east">nowhere</direction>
+        <direction type="west">northumbria</direction>
+    </denmark>
+
+    <northumbria>
+        <property type="soldiers">500</property>
+        <property type="houses">
+            <mysterybox>
+                <swords>sword</swords>
+                <treasures>100</treasures>
+            </mysterybox>
+        </property>
+        <property type="weapons">300</property>
+        <property type="locals">10</property>
+        <property type="horse">100</property>
+        <property type="palace">1</property>
+        <property type="boat">5</property>
+
+        <entrymessage type="entrymessage">You are in Northumbria, also known as cradle of Christianity.;The terrain is level along the rugged coast line and hilly in the interior, where high moorlands alternate with fertile valleys.;You see castles, rock art and hill forts such as Yeavering Bell, and circles such as the Goatstones and Dubbo Five Stones.;</entrymessage>
+        <lostsign type="victorySign">vicNorthum</lostsign>
+        <ragnarsoldiers type = "ragnarsoldiers">0</ragnarsoldiers>
+        <direction type="north">ireland</direction>
+        <direction type="south">france</direction>
+        <direction type="east">denmark</direction>
+        <direction type="west">nowhere</direction>
+
+    </northumbria>
+
+    <france>
+        <property type="soldiers">400</property>
+        <property type="houses">
+            <mysterybox>
+                <swords>sword</swords>
+                <treasures>100</treasures>
+            </mysterybox>
+        </property>
+        <property type="weapons">300</property>
+        <property type="locals">10</property>
+        <property type="horse">100</property>
+        <property type="palace">1</property>
+        <property type="boat">5</property>
+
+        <entrymessage type="entrymessage">Looks like you have reached France.;You can see  low lying plains and gently rolling hills in the north and west, and mountain in the south.;Rugged cliffs front can be seen along the English Channel.;</entrymessage>
+        <lostsign type="victorySign">vicFrance</lostsign>
+        <ragnarsoldiers type = "ragnarsoldiers">0</ragnarsoldiers>
+        <direction type="north">denmark</direction>
+        <direction type="south">nowhere</direction>
+        <direction type="east">nowhere</direction>
+        <direction type="west">nowhere</direction>
+    </france>
+
+    <iceland>
+        <property type="soldiers">500</property>
+        <property type="houses">
+            <mysterybox>
+                <swords>sword</swords>
+                <treasures>100</treasures>
+            </mysterybox>
+        </property>
+        <property type="locals">10</property>
+        <property type="horse">100</property>
+        <property type="palace">1</property>
+        <property type="boat">5</property>
+
+        <entrymessage type="entrymessage">oo ice</entrymessage>
+
+        <direction type="north">nowhere</direction>
+        <direction type="south">kattegat</direction>
+        <direction type="east">nowhere</direction>
+        <direction type="west">nowhere</direction>
+    </iceland>
+
+    <ireland>
+        <property type="soldiers">500</property>
+        <property type="houses">
+            <mysterybox>
+                <swords>sword</swords>
+                <treasures>100</treasures>
+            </mysterybox>
+        </property>
+        <property type="weapons">300</property>
+        <property type="locals">10</property>
+        <property type="horse">100</property>
+        <property type="palace">1</property>
+        <property type="boat">5</property>
+
+        <entrymessage type="entrymessage">You are in Ireland.;Ireland's central lowlands of flat rolling plains are dissected by bogs, loughs (lakes) and rivers, and surrounded by hills and low mountains.;</entrymessage>
+        <lostsign type="victorySign">vicIreland</lostsign>
+        <ragnarsoldiers type = "ragnarsoldiers">0</ragnarsoldiers>
+        <direction type="north">nowhere</direction>
+        <direction type="south">northumbria</direction>
+        <direction type="east">kattegat</direction>
+        <direction type="west">nowhere</direction>
+    </ireland>
+
+    <russia>
+        <property type="soldiers">3000</property>
+        <property type="houses">
+            <mysterybox>
+                <swords>sword</swords>
+                <treasures>100</treasures>
+            </mysterybox>
+        </property>
+        <property type="weapons">1000</property>
+        <property type="locals">10</property>
+        <property type="horse">100</property>
+        <property type="palace">1</property>
+        <property type="boat">5</property>
+
+        <entrymessage type="entrymessage">You are in Russia.;You see Russian landscape varies from desert to frozen coastline, tall mountains to giant marshes;Much of Russia is made up of rolling, treeless plains called steppes;Your army is crossing a large frozen lake</entrymessage>
+        <attackmessage type="attackmessage">You see a large Russian army charging towards you with greater force;Your army is outnumbered by the Russians</attackmessage>
+        <neighbors type="neighbors">sweden,kattegat</neighbors>
+        <lostsign type="victorySign">vicRussia</lostsign>
+        <ragnarsoldiers type = "ragnarsoldiers">0</ragnarsoldiers>
+        <direction type="north">nowhere</direction>
+        <direction type="south">nowhere</direction>
+        <direction type="east">nowhere</direction>
+        <direction type="west">sweden</direction>
+    </russia>
+
+</country>
