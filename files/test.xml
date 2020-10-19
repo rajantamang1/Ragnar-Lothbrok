@@ -1,13 +1,13 @@
 <country>
     <kattegat>
-        <property type="soldiers">500</property>
+        <property type="soldiers">800</property>
         <property type="houses" id="inspectable">
             <inner type = "mysterybox" id="inspectable">
                 <extreme type="swords">sword</extreme>
                 <extreme type="treasures">100</extreme>
             </inner>
         </property>
-        <property type="weapons">300</property>
+        <property type="weapons">500</property>
         <property type="locals">10</property>
         <property type="horse">100</property>
         <property type="palace">1</property>
@@ -60,7 +60,7 @@
         <property type="palace">1</property>
         <property type="boat">5</property>
 
-        <entrymessage type="entrymessage">You are in Denmark;</entrymessage>
+        <entrymessage type="entrymessage">You are in Denmark,;You can see the flat, arable land and sandy coasts in the nearby archipelago.;Your boat crashed on the beach.;You can see the danish in the far off distance with fires cooking wild goats in a nearby village.;You smell the burned flesh of enemies...;</entrymessage>
         <lostsign type="victorySign">vicDenmark</lostsign>
         <ragnarsoldiers type = "ragnarsoldiers">0</ragnarsoldiers>
         <direction type="north">kattegat</direction>
@@ -83,7 +83,7 @@
         <property type="palace">1</property>
         <property type="boat">5</property>
 
-        <entrymessage type="entrymessage">You are in Northumbria;</entrymessage>
+        <entrymessage type="entrymessage">You are in Northumbria, also known as cradle of Christianity.;The terrain is level along the rugged coast line and hilly in the interior, where high moorlands alternate with fertile valleys.;You see castles, rock art and hill forts such as Yeavering Bell, and circles such as the Goatstones and Dubbo Five Stones.;</entrymessage>
         <lostsign type="victorySign">vicNorthum</lostsign>
         <ragnarsoldiers type = "ragnarsoldiers">0</ragnarsoldiers>
         <direction type="north">ireland</direction>
@@ -107,7 +107,7 @@
         <property type="palace">1</property>
         <property type="boat">5</property>
 
-        <entrymessage type="entrymessage">You are in France;</entrymessage>
+        <entrymessage type="entrymessage">Looks like you have reached France.;You can see  low lying plains and gently rolling hills in the north and west, and mountain in the south.;Rugged cliffs front can be seen along the English Channel.;</entrymessage>
         <lostsign type="victorySign">vicFrance</lostsign>
         <ragnarsoldiers type = "ragnarsoldiers">0</ragnarsoldiers>
         <direction type="north">denmark</direction>
@@ -151,7 +151,7 @@
         <property type="palace">1</property>
         <property type="boat">5</property>
 
-        <entrymessage type="entrymessage">You are in Ireland;</entrymessage>
+        <entrymessage type="entrymessage">You are in Ireland.;Ireland's central lowlands of flat rolling plains are dissected by bogs, loughs (lakes) and rivers, and surrounded by hills and low mountains.;</entrymessage>
         <lostsign type="victorySign">vicIreland</lostsign>
         <ragnarsoldiers type = "ragnarsoldiers">0</ragnarsoldiers>
         <direction type="north">nowhere</direction>

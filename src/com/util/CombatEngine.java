@@ -1,4 +1,5 @@
 package com.util;
+import java.sql.ClientInfoStatus;
 import java.util.Random;
 public class CombatEngine {
 
@@ -8,6 +9,7 @@ public class CombatEngine {
         Random rand = new Random();
         return rand.nextInt(a);
     }
+
 
 
     public int combatPower(int soldierCount, int weaponCount) {

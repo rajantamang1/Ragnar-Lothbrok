@@ -5,6 +5,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -71,8 +72,10 @@ public class Start {
                     //System.out.println(message);
                 }
                 System.out.println(defeatedCountry);
-            if(defeatedCountry.size()==2){
-                System.out.println("All Hail! King Ragnar. You are the mighty King of the King.");
+
+            if(defeatedCountry.size()==6){
+                JOptionPane.showMessageDialog(ApplicationRenderer.window,"You conquered all the nations. " +
+                        "You are the king of the kings.");
                 break;
             }
             }

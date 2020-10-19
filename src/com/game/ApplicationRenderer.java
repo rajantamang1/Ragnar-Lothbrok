@@ -8,6 +8,7 @@ import org.xml.sax.SAXException;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
+import javax.xml.crypto.dsig.keyinfo.KeyValue;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -222,7 +223,7 @@ public class ApplicationRenderer{
         //add label to panel
         playerHeaderPanel.add(soldierCountLabel);
 
-        soldierCountNumberLabel = new JLabel("500");
+        soldierCountNumberLabel = new JLabel("800");
         soldierCountNumberLabel.setFont(playerHeaderFont);
         soldierCountNumberLabel.setForeground(Color.white);
         playerHeaderPanel.add(soldierCountNumberLabel);
@@ -310,6 +311,45 @@ public class ApplicationRenderer{
         //adding button to the main panel
         inputTextPanel.add(showMapButton);
         showMapButton.setFocusPainted(false); //removes extra box in the button
+
+        // panel to display available commands
+        JPanel commandPanel = new JPanel();
+        commandPanel.setBounds(150,645,700,200);
+        commandPanel.setBackground(Color.blue);
+        commandPanel.setLayout(new GridLayout(6,1));
+        con.add(commandPanel);
+
+        JLabel commandLabel = new JLabel("     Commands : ");
+        commandLabel.setFont(playerHeaderFont);
+
+        commandLabel.setForeground(Color.white);
+        commandPanel.add(commandLabel);
+
+        JLabel goCommands = new JLabel("    To Travel: sail, travel, go, proceed, move [East, West, North, South]");
+        goCommands.setFont(playerHeaderFont);
+        goCommands.setForeground(Color.white);
+        commandPanel.add(goCommands);
+
+        JLabel attackCommands = new JLabel("    To Attack: invade, attack, engage, destroy, fight, annihilate");
+        attackCommands.setFont(playerHeaderFont);
+        attackCommands.setForeground(Color.white);
+        commandPanel.add(attackCommands);
+
+        JLabel pickCommands = new JLabel("    To Pick: pick, choose, select, collect [items]");
+        pickCommands.setFont(playerHeaderFont);
+        pickCommands.setForeground(Color.white);
+        commandPanel.add(pickCommands);
+
+        JLabel lookCommands = new JLabel("    To Look: view, overlook, observe, look, overview");
+        lookCommands.setFont(playerHeaderFont);
+        lookCommands.setForeground(Color.white);
+        commandPanel.add(lookCommands);
+
+        JLabel inspectCommands = new JLabel("    To Inspect: inspect, investigate, examine, check, monitor, study [items]");
+        inspectCommands.setFont(playerHeaderFont);
+        inspectCommands.setForeground(Color.white);
+        commandPanel.add(inspectCommands);
+
     }
     //method that populates the map on a button click
     private void show(){
@@ -506,7 +546,10 @@ public class ApplicationRenderer{
                             curCountry = country.sail(inputArray[1], document);
                             country.setNameOfCountry(curCountry);
                             currentCountryValueLabel.setText(String.valueOf(curCountry.charAt(0)).toUpperCase()+ curCountry.substring(1));
-
+                            if(curCountry.equals("iceland")){
+                                JOptionPane.showMessageDialog(ApplicationRenderer.window,"You and your soldiers have been frozen to death... You lost !!");
+                                System.exit(0);
+                            }
                             if(!defeatedCountry.contains(curCountry)){
                                 setMessage(TextParser.getValueByType(document,curCountry,"entrymessage").get(0).getTextContent());
                             }else{
@@ -526,15 +569,13 @@ public class ApplicationRenderer{
                 } else if (getSynonymSet("lookset").contains(inputArray[0])){
                      String visibleItems = country.look(document);
                     setMessage("You can see ["+ visibleItems + "]");
-                } else if (getSynonymSet("pickset").contains(inputArray[0])) {
-                    System.out.println("inventory available: " + availableInventory);
-                    System.out.println("input: "+ inputArray[1]);
-                    System.out.println("array length" + inputArray.length);
+                } else if (getSynonymSet("pickset").contains(inputArray[0])&& curCountry.equals("kattegat")) {
+
                     availableInventory.forEach(a->availableInventoryKey.add(a.split(" ")[0]));
                     if(inputArray.length == 2 && availableInventoryKey.contains(inputArray[1])) {
                         if(!inputArray[1].equals("houses")){
                             String[] keyValue = country.getItem(inputArray[1], curCountry,document).split(",", 2);
-                            setMessage(keyValue[0] +"," + keyValue[1]);
+                            setMessage(keyValue[1] +" "+ keyValue[0] + "s picked");
                             inventoryMap.put(keyValue[0], keyValue[1]);
                             //setMessage("Your possessions: " + inventoryMap);
                             inventoryValueLabel.setText(inventoryMap.toString());
@@ -590,8 +631,9 @@ public class ApplicationRenderer{
                     setMessage("Doesn't seem to work");
                 }
                 System.out.println(defeatedCountry);
-                if(defeatedCountry.size()==5){
-                    setMessage("All Hail! King Ragnar. You are the mighty King of the Kings.");
+                if(defeatedCountry.size()==6){
+                    JOptionPane.showMessageDialog(ApplicationRenderer.window,"You have conquered all the nations. All Hail! King Ragnar. You are the mighty King of the Kings.");
+                    System.exit(0);
                 }
         }
     }
