@@ -39,6 +39,7 @@
         <entrymessage type="entrymessage">You are in Sweden;Rich archaeological spot in the Baltic Sea for trading voyages;You can see vast mountains and forest regions in the north;lowland in the east and highland in the west</entrymessage>
         <lostsign type="victorySign">vicSweden</lostsign>
         <neighbors type="neighbors">kattegat,russia</neighbors>
+        <ragnarsoldiers type = "ragnarsoldiers">0</ragnarsoldiers>
         <direction type="north">nowhere</direction>
         <direction type="south">nowhere</direction>
         <direction type="east">russia</direction>
@@ -59,8 +60,9 @@
         <property type="palace">1</property>
         <property type="boat">5</property>
 
-        <entrymessage type="entrymessage">oooo cheese danish</entrymessage>
+        <entrymessage type="entrymessage">You are in Denmark;</entrymessage>
         <lostsign type="victorySign">vicDenmark</lostsign>
+        <ragnarsoldiers type = "ragnarsoldiers">0</ragnarsoldiers>
         <direction type="north">kattegat</direction>
         <direction type="south">france</direction>
         <direction type="east">nowhere</direction>
@@ -81,8 +83,9 @@
         <property type="palace">1</property>
         <property type="boat">5</property>
 
-        <entrymessage type="entrymessage">oooo tea</entrymessage>
+        <entrymessage type="entrymessage">You are in Northumbria;</entrymessage>
         <lostsign type="victorySign">vicNorthum</lostsign>
+        <ragnarsoldiers type = "ragnarsoldiers">0</ragnarsoldiers>
         <direction type="north">ireland</direction>
         <direction type="south">france</direction>
         <direction type="east">denmark</direction>
@@ -104,8 +107,9 @@
         <property type="palace">1</property>
         <property type="boat">5</property>
 
-        <entrymessage type="entrymessage">oooo french vanilla</entrymessage>
+        <entrymessage type="entrymessage">You are in France;</entrymessage>
         <lostsign type="victorySign">vicFrance</lostsign>
+        <ragnarsoldiers type = "ragnarsoldiers">0</ragnarsoldiers>
         <direction type="north">denmark</direction>
         <direction type="south">nowhere</direction>
         <direction type="east">nowhere</direction>
@@ -126,7 +130,7 @@
         <property type="boat">5</property>
 
         <entrymessage type="entrymessage">oo ice</entrymessage>
-        <lostsign type="victorySign">vicIreland</lostsign>
+
         <direction type="north">nowhere</direction>
         <direction type="south">kattegat</direction>
         <direction type="east">nowhere</direction>
@@ -147,7 +151,9 @@
         <property type="palace">1</property>
         <property type="boat">5</property>
 
-        <entrymessage type="entrymessage">oooo guiness</entrymessage>
+        <entrymessage type="entrymessage">You are in Ireland;</entrymessage>
+        <lostsign type="victorySign">vicIreland</lostsign>
+        <ragnarsoldiers type = "ragnarsoldiers">0</ragnarsoldiers>
         <direction type="north">nowhere</direction>
         <direction type="south">northumbria</direction>
         <direction type="east">kattegat</direction>
@@ -168,9 +174,11 @@
         <property type="palace">1</property>
         <property type="boat">5</property>
 
-        <entrymessage type="entrymessage">You see Russian landscape varies from desert to frozen coastline, tall mountains to giant marshes;Much of Russia is made up of rolling, treeless plains called steppes;Your army is crossing a large frozen lake</entrymessage>
+        <entrymessage type="entrymessage">You are in Russia.;You see Russian landscape varies from desert to frozen coastline, tall mountains to giant marshes;Much of Russia is made up of rolling, treeless plains called steppes;Your army is crossing a large frozen lake</entrymessage>
         <attackmessage type="attackmessage">You see a large Russian army charging towards you with greater force;Your army is outnumbered by the Russians</attackmessage>
         <neighbors type="neighbors">sweden,kattegat</neighbors>
+        <lostsign type="victorySign">vicRussia</lostsign>
+        <ragnarsoldiers type = "ragnarsoldiers">0</ragnarsoldiers>
         <direction type="north">nowhere</direction>
         <direction type="south">nowhere</direction>
         <direction type="east">nowhere</direction>

@@ -62,7 +62,9 @@ public class Country {
         String result = TextParser.textParser("attack","",nameOfCountry,document);
         return result;
     }
-
+    public void flee(Document document){
+        TextParser.textParser("flee", "",nameOfCountry,document);
+    }
 
 
     public String getNameOfCountry() {

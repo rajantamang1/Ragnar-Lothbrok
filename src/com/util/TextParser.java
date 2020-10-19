@@ -1,4 +1,5 @@
 package com.util;
+import java.security.KeyStore;
 import java.util.*;
 
 import com.game.ApplicationRenderer;
@@ -6,18 +7,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import javax.swing.*;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Timer;
-import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,36 +25,36 @@ public class TextParser extends Thread{
         String result = "";
 
         try {
-//            File file = new File("Ragnar-lothbrok/files/test.xml");
-//
-//            DocumentBuilderFactory mybuilder = DocumentBuilderFactory.newInstance();
-//            DocumentBuilder mydocbuilder = mybuilder.newDocumentBuilder();
-//            Document document = mydocbuilder.parse(file);
-//            document.getDocumentElement().normalize();
             System.out.println("Root element:" + document.getDocumentElement().getNodeName());//gives you country
             NodeList nodeList = document.getElementsByTagName(noun);
 
-            //Map<String, String> countryInstance = new HashMap<>();
-
-            //Country curCountryObject = null;
-            if (cmd.equals("sail")) {
-                curCountry = direction(document, noun, countryName);
-                //countryInstance = new Country(curCountry);
-                //countryInstance.setNameOfCountry(curCountry);
-                result = curCountry;
-                //countryInstance.put("","");
-                //setMessage(curCountry);
-                System.out.println(curCountry);
-            } else if (cmd.equals("look")) {
-                itemList = viewItems(document, countryName, "");
-                result = itemList;
-            } else if (cmd.equals("inspect")) {
-                itemList = viewItems(document, countryName, noun);
-                result = itemList;
-            } else if (cmd.equals("pick")) {
-                result = grab(document, noun, countryName);
-            } else if (cmd.equals("attack")) {
-                result = combat(document, countryName);
+            switch (cmd) {
+                case "sail":
+                    curCountry = direction(document, noun, countryName);
+                    //countryInstance = new Country(curCountry);
+                    //countryInstance.setNameOfCountry(curCountry);
+                    result = curCountry;
+                    //countryInstance.put("","");
+                    //setMessage(curCountry);
+                    System.out.println(curCountry);
+                    break;
+                case "look":
+                    itemList = viewItems(document, countryName, "");
+                    result = itemList;
+                    break;
+                case "inspect":
+                    itemList = viewItems(document, countryName, noun);
+                    result = itemList;
+                    break;
+                case "pick":
+                    result = grab(document, noun, countryName);
+                    break;
+                case "attack":
+                    result = combat(document, countryName);
+                    break;
+                case "flee":
+                    flee(document, countryName);
+                    break;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,7 +85,6 @@ public class TextParser extends Thread{
                             .append(",")
                             .append(elem.getTextContent())
                             .toString();
-
                     break;
                 }
             }
@@ -195,7 +188,7 @@ public class TextParser extends Thread{
             setMessage("That direction leads you to " + desCountry.strip());
             return curCountry;
         } else {
-            setMessage("You are in " + desCountry);
+            //setMessage("You are in " + desCountry);
 
             return desCountry;
         }
@@ -256,20 +249,24 @@ public class TextParser extends Thread{
         }
         return selectNumberOfSoldiers;
     }
+
+    protected static int selectNumberOfSoldier = 0;
     // function to be used to get numbers of soldiers from current country and country to be attacked
     private static String combat(Document document, String attackCountry) throws NoSuchFieldException {
+
         CombatEngine combatEngine = new CombatEngine();
-        int desSoldierNumber ;
+        int desSoldierNumber;
         int curCountrySoldierNumber;
         int desWeaponsNumber;
         int curWeaponNumber;
-        int selectNumberOfSoldier;
+        //int selectNumberOfSoldier;
         String result;
         desSoldierNumber=getSoldierNumber(document,attackCountry);
         desWeaponsNumber=getWeaponNumber(document,attackCountry);
         System.out.println("the weapons"+desWeaponsNumber);
         curCountrySoldierNumber = getSoldierNumber(document,"kattegat");
         curWeaponNumber = getWeaponNumber(document,"kattegat");
+
         System.out.println("You are in war");
         // call the promptPlayer Function
         selectNumberOfSoldier =  promptPlayer(curCountrySoldierNumber,
@@ -300,15 +297,19 @@ public class TextParser extends Thread{
             if (leaveSoldierMessage.equals("yes")){
                 noOfSoldierToLeave = JOptionPane.showInputDialog(ApplicationRenderer.
                         window,"No. of Soldiers to leave at "+ attackCountry +":");
+                leftNumberOfSoldier = Integer.parseInt(noOfSoldierToLeave);
                 curCountrySoldierNumber -= leftNumberOfSoldier;
+                getValueByType(document,attackCountry,"ragnarsoldiers")
+                        .get(0).setTextContent(String.valueOf(leftNumberOfSoldier));
+                System.out.println(getValueByType(document,attackCountry,"ragnarsoldiers")
+                        .get(0).getTextContent() + " soldiers left");
                 setMessage("You have: "+ Integer.parseInt(noOfSoldierToLeave )+ " at "+ attackCountry);
             }else{
                 setMessage("You are not leaving any soldiers. You still have "+ curCountrySoldierNumber+ " soldiers");
             }
 
         }else {
-            String display = JOptionPane.showInputDialog(ApplicationRenderer.window,"You are Loosing do you want to Flee").toLowerCase();
-            if (display.equals("yes")){
+            /*if (display.equals("yes")){
                 //country.setNameOfCountry("kattegat");
                 //ApplicationRenderer.curCountry= "kattegat";
                 result="kattegat";
@@ -321,7 +322,7 @@ public class TextParser extends Thread{
                 setMessage("You loose!" + "\nYou lost " + lostSoldierCount + " soldiers. You only have: " +
                         curCountrySoldierNumber + " soldiers." + "\nYou lost " +
                         lostWeaponsNumber + " weapons. Now, you have " + curWeaponNumber + " weapons.");
-            }else{
+            }else{*/
                 result = "kattegat";
                 //deducting soldiers and weapons from total from player
                 int lostSoldierCount = (int) (selectNumberOfSoldier * 0.30);
@@ -332,7 +333,8 @@ public class TextParser extends Thread{
                 setMessage("You lose!" + "\nYou lost " + lostSoldierCount + " soldiers. You only have: " +
                         curCountrySoldierNumber + " soldiers." + "\nYou lost " +
                         lostWeaponsNumber + " weapons. Now, you have " + curWeaponNumber + " weapons.");
-            }
+            JOptionPane.showMessageDialog(ApplicationRenderer.window,"You are Loosing..Type 'flee' to run away");
+
         }
         //updating number of soldiers and weapons according to the battle
         updateNumberOfSoldier(document, desSoldierNumber,attackCountry);
@@ -341,11 +343,41 @@ public class TextParser extends Thread{
         updateWeaponNumber(document,curWeaponNumber,"kattegat");
         Statistics.setHeader("soldiers",String.valueOf(curCountrySoldierNumber));
         Statistics.setHeader("weapons",String.valueOf(curWeaponNumber));
+
+        //exit threshold
+        if(curCountrySoldierNumber <=400){
+            JOptionPane.showMessageDialog(ApplicationRenderer.window,"You lost..GAME OVER! ");
+            System.exit(0);
+        }
+
         return result;
     }
 
+    private static void flee(Document document, String attackCountry){
+        //country.setNameOfCountry("kattegat");
+        //ApplicationRenderer.curCountry= "kattegat";
+        int curCountrySoldierNumber = getSoldierNumber(document,"kattegat");
+        int curWeaponNumber = getWeaponNumber(document,"kattegat");
+        //result="kattegat";
+        //deducting soldiers and weapons from total from player
+        int lostSoldierCount = (int) (selectNumberOfSoldier * 0.10);
+        curCountrySoldierNumber -= lostSoldierCount;
+        int lostWeaponsNumber = (int) (curWeaponNumber * 0.10);
+        curWeaponNumber -= lostWeaponsNumber;
+        //display message
+        setMessage("You loose!" + "\nYou lost " + lostSoldierCount + " soldiers. You only have: " +
+                curCountrySoldierNumber + " soldiers." + "\nYou lost " +
+                lostWeaponsNumber + " weapons. Now, you have " + curWeaponNumber + " weapons.");
 
-    private static String result;
+        //updateNumberOfSoldier(document, desSoldierNumber,attackCountry);
+        updateNumberOfSoldier(document, curCountrySoldierNumber,"kattegat");
+        //updateWeaponNumber(document,desWeaponsNumber,attackCountry);
+        updateWeaponNumber(document,curWeaponNumber,"kattegat");
+        Statistics.setHeader("soldiers",String.valueOf(curCountrySoldierNumber));
+        Statistics.setHeader("weapons",String.valueOf(curWeaponNumber));
+    }
+
+    //private static String result;
     public static List<String> loserCountryList = new ArrayList<>();
     private static int desSoldierNumber;
     private static int desWeaponsNumber;

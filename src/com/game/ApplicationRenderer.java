@@ -3,6 +3,7 @@ package com.game;
 import com.util.CombatEngine;
 import com.util.Statistics;
 import com.util.TextParser;
+import com.util.Typewriter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -61,7 +62,7 @@ public class ApplicationRenderer{
     Set<String> availableInventory = new HashSet<>();
     Set<String> availableDirections = new HashSet<>();
     Set<Node> inspectableItems = new HashSet<>();
-    final String[] directionList = {"east","west", "north", "south"};
+    public static final String[] directionList = {"east","west", "north", "south"};
 
     //Accessing XML file
     File file = new File("Ragnar-lothbrok/files/test.xml");
@@ -451,7 +452,6 @@ public class ApplicationRenderer{
         String[] availableList= country.look(document).split(",");
         availableInventory.addAll(Arrays.asList(availableList));
 
-        //String[] inspectables = TextParser.getValueByType(document, curCountry, "id");
         inspectableItems.addAll(TextParser.getValueByType(document, curCountry, "inspectable"));
         //converting lambda into string
         inspectableItems.forEach(item-> System.out.println(item.getTextContent()));
@@ -463,9 +463,7 @@ public class ApplicationRenderer{
             }else{
                 userInput = userInput.toLowerCase();
                 String[] inputArray = userInput.split(" ", 2);
-                //String newCountry = "";
                 String itemsVisible = "";
-                // mainTxtArea.setText(userInput);
                 if (getSynonymSet("goset").contains(inputArray[0])) {
                     String[] neighbors = {};
                     Node countryChild =null;
@@ -481,13 +479,10 @@ public class ApplicationRenderer{
                     if(inputArray.length == 2 && availableDirections.contains(inputArray[1])) {
                         String travelCountry = TextParser.getValueByType(document, curCountry, inputArray[1]).get(0).getTextContent();
                         if (inventoryMap.containsKey("boat") | neighborsSet.contains(travelCountry)){
-                            //if(inputArray.length == 2 && availableDirections.contains(inputArray[1])){
                             curCountry = country.sail(inputArray[1], document);
                             country.setNameOfCountry(curCountry);
                             currentCountryValueLabel.setText(String.valueOf(curCountry.charAt(0)).toUpperCase()+ curCountry.substring(1));
-                            // }else{
-                            //setMessage("Where do you want to go?" + availableDirections);
-                            //}
+
                             if(!defeatedCountry.contains(curCountry)){
                                 setMessage(TextParser.getValueByType(document,curCountry,"entrymessage").get(0).getTextContent());
                             }else{
@@ -536,29 +531,39 @@ public class ApplicationRenderer{
 
                         if(!defeatedCountry.contains(curCountry)){
                             setMessage("The battle is about to begin.;Bloods are about to be shattered everywhere.;The sound of soldiers marching can be heard from distance.");
-                            try {
-                                Thread.sleep(3000);
+                           // try {
+                                //Thread.sleep(3000);
                                 countryAttacked = country.attack(curCountry,document);
                                 defeatedCountry.add(countryAttacked);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+                            //} catch (InterruptedException e) {
+                             //   e.printStackTrace();
+                            //}
                         }else{
                             setMessage(curCountry + " already defeated");
+                            setMessage(TextParser.getValueByType(document,curCountry,"ragnarsoldiers").get(0).getTextContent());
                         }
                     }else {
                         setMessage("you cannot attack!!");
                     }
                 }else if (inputArray[0].equals("flee")){
-                    TextParser.myThread.interrupt();
-                }
-
-                else{
+                    String fleeCountry = "";
+                    for(int i = 0; i < 3; i++){
+                        fleeCountry = TextParser.getValueByType(document,curCountry,directionList[i]).get(0)
+                                .getTextContent();
+                        if(!fleeCountry.equals("nowhere")){
+                            curCountry = fleeCountry;
+                            break;
+                        }
+                    }
+                    country.flee(document);
+                    country.setNameOfCountry(curCountry);
+                    currentCountryValueLabel.setText(String.valueOf(curCountry.charAt(0)).toUpperCase()+ curCountry.substring(1));
+                }else{
                     setMessage("Doesn't seem to work");
                 }
                 System.out.println(defeatedCountry);
-                if(defeatedCountry.size()==2){
-                    System.out.println("All Hail! King Ragnar. You are the mighty King of the King.");
+                if(defeatedCountry.size()==5){
+                    setMessage("All Hail! King Ragnar. You are the mighty King of the Kings.");
                 }
         }
     }
